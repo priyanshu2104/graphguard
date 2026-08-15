@@ -59,6 +59,24 @@ def get_split_masks():
         torch.tensor(labeled_mask),
     )
 
+def standardize_features(data, train_mask):
+    """
+    Z-score standardizes node features using TRAIN split statistics only,
+    then applies that same transform to all nodes (train, test, unlabeled).
+    GCN/GraphSAGE/GAT are sensitive to feature scale in a way tree-based
+    models (RF/XGBoost) are not -- this step is usually necessary for GNNs
+    to train well on this dataset.
+    """
+    import copy
+    data = copy.copy(data)
+
+    x_train = data.x[train_mask]
+    mean = x_train.mean(dim=0, keepdim=True)
+    std = x_train.std(dim=0, keepdim=True)
+    std[std == 0] = 1.0  # avoid divide-by-zero on any constant feature column
+
+    data.x = (data.x - mean) / std
+    return data
 
 if __name__ == "__main__":
     X_train, y_train, X_test, y_test = get_baseline_splits()

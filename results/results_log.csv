@@ -1,3 +1,8 @@
 model,precision_illicit,recall_illicit,f1_illicit,auc_pr_illicit,split,timestamp
 Random Forest,0.9908,0.6934,0.8159,0.7897,baseline_temporal,2026-08-16T00:23:58
 XGBoost,0.8422,0.7341,0.7844,0.8023,baseline_temporal,2026-08-16T00:23:59
+GCN (no standardization),0.4049,0.5383,0.4621,0.4313,baseline_temporal,2026-08-16T00:39:01
+GraphSAGE (no standardization),0.4886,0.6537,0.5592,0.6108,baseline_temporal,2026-08-16T00:40:02
+GCN (standardized, no skip),0.3683,0.542,0.4386,0.4276,baseline_temporal,2026-08-16T00:44:39
+GraphSAGE (standardized),0.5402,0.626,0.58,0.6108,baseline_temporal,2026-08-16T00:45:00
+GCN-Skip,0.5893,0.6122,0.6005,0.6111,baseline_temporal,2026-08-16T00:51:05
