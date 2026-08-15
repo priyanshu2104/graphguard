@@ -226,4 +226,5 @@ data/processed/*
 # experiment logs
 wandb/
 *.pt
-*.pth
+*.pth.DS_Store
+*.egg-info/
