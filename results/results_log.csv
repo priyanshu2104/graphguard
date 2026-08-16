@@ -3,6 +3,15 @@ Random Forest,0.9908,0.6934,0.8159,0.7897,baseline_temporal,2026-08-16T00:23:58
 XGBoost,0.8422,0.7341,0.7844,0.8023,baseline_temporal,2026-08-16T00:23:59
 GCN (no standardization),0.4049,0.5383,0.4621,0.4313,baseline_temporal,2026-08-16T00:39:01
 GraphSAGE (no standardization),0.4886,0.6537,0.5592,0.6108,baseline_temporal,2026-08-16T00:40:02
-GCN (standardized, no skip),0.3683,0.542,0.4386,0.4276,baseline_temporal,2026-08-16T00:44:39
+GCN (standardized no-skip),0.3683,0.542,0.4386,0.4276,baseline_temporal,2026-08-16T00:44:39
 GraphSAGE (standardized),0.5402,0.626,0.58,0.6108,baseline_temporal,2026-08-16T00:45:00
 GCN-Skip,0.5893,0.6122,0.6005,0.6111,baseline_temporal,2026-08-16T00:51:05
+GCN-Skip [hc32_lr0.01_do0.3],0.432,0.59,0.4988,0.5008,hyperparam_sweep,2026-08-16T23:16:01
+GCN-Skip [hc64_lr0.01_do0.3],0.5893,0.6122,0.6005,0.6111,hyperparam_sweep,2026-08-16T23:16:26
+GCN-Skip [hc64_lr0.005_do0.5],0.468,0.6482,0.5436,0.5878,hyperparam_sweep,2026-08-16T23:16:51
+GraphSAGE [hc32_lr0.01_do0.3],0.5074,0.6371,0.5649,0.6284,hyperparam_sweep,2026-08-16T23:17:03
+GraphSAGE [hc64_lr0.01_do0.3],0.5402,0.626,0.58,0.6108,hyperparam_sweep,2026-08-16T23:17:21
+GraphSAGE [hc64_lr0.005_do0.5],0.4272,0.65,0.5156,0.5904,hyperparam_sweep,2026-08-16T23:17:40
+GAT-Skip [hc32_lr0.01_do0.3],0.393,0.7054,0.5048,0.5695,hyperparam_sweep,2026-08-16T23:18:27
+GAT-Skip [hc64_lr0.01_do0.3],0.3263,0.7387,0.4526,0.5837,hyperparam_sweep,2026-08-16T23:20:03
+GAT-Skip [hc64_lr0.005_do0.5],0.2813,0.7479,0.4089,0.4312,hyperparam_sweep,2026-08-16T23:21:45

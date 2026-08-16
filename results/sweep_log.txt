@@ -1,0 +1,159 @@
+
+=== GCN-Skip [hc32_lr0.01_do0.3] ===
+Epoch  20 | Loss: 0.2483
+Epoch  40 | Loss: 0.1873
+Epoch  60 | Loss: 0.1561
+Epoch  80 | Loss: 0.1365
+Epoch 100 | Loss: 0.1224
+
+--- GCN-Skip [hc32_lr0.01_do0.3] ---
+Precision (illicit): 0.4320
+Recall    (illicit): 0.5900
+F1        (illicit): 0.4988
+AUC-PR    (illicit): 0.5008
+Confusion matrix [[TN, FP], [FN, TP]]:
+[[14747   840]
+ [  444   639]]
+Logged to /Users/priyanshushekhar/graphguard/results/results_log.csv
+
+=== GCN-Skip [hc64_lr0.01_do0.3] ===
+Epoch  20 | Loss: 0.1988
+Epoch  40 | Loss: 0.1414
+Epoch  60 | Loss: 0.1128
+Epoch  80 | Loss: 0.0966
+Epoch 100 | Loss: 0.0866
+
+--- GCN-Skip [hc64_lr0.01_do0.3] ---
+Precision (illicit): 0.5893
+Recall    (illicit): 0.6122
+F1        (illicit): 0.6005
+AUC-PR    (illicit): 0.6111
+Confusion matrix [[TN, FP], [FN, TP]]:
+[[15125   462]
+ [  420   663]]
+Logged to /Users/priyanshushekhar/graphguard/results/results_log.csv
+
+=== GCN-Skip [hc64_lr0.005_do0.5] ===
+Epoch  20 | Loss: 0.2529
+Epoch  40 | Loss: 0.1942
+Epoch  60 | Loss: 0.1604
+Epoch  80 | Loss: 0.1403
+Epoch 100 | Loss: 0.1271
+
+--- GCN-Skip [hc64_lr0.005_do0.5] ---
+Precision (illicit): 0.4680
+Recall    (illicit): 0.6482
+F1        (illicit): 0.5436
+AUC-PR    (illicit): 0.5878
+Confusion matrix [[TN, FP], [FN, TP]]:
+[[14789   798]
+ [  381   702]]
+Logged to /Users/priyanshushekhar/graphguard/results/results_log.csv
+
+=== GraphSAGE [hc32_lr0.01_do0.3] ===
+Epoch  20 | Loss: 0.2374
+Epoch  40 | Loss: 0.1634
+Epoch  60 | Loss: 0.1262
+Epoch  80 | Loss: 0.1069
+Epoch 100 | Loss: 0.0951
+
+--- GraphSAGE [hc32_lr0.01_do0.3] ---
+Precision (illicit): 0.5074
+Recall    (illicit): 0.6371
+F1        (illicit): 0.5649
+AUC-PR    (illicit): 0.6284
+Confusion matrix [[TN, FP], [FN, TP]]:
+[[14917   670]
+ [  393   690]]
+Logged to /Users/priyanshushekhar/graphguard/results/results_log.csv
+
+=== GraphSAGE [hc64_lr0.01_do0.3] ===
+Epoch  20 | Loss: 0.2011
+Epoch  40 | Loss: 0.1295
+Epoch  60 | Loss: 0.0973
+Epoch  80 | Loss: 0.0816
+Epoch 100 | Loss: 0.0692
+
+--- GraphSAGE [hc64_lr0.01_do0.3] ---
+Precision (illicit): 0.5402
+Recall    (illicit): 0.6260
+F1        (illicit): 0.5800
+AUC-PR    (illicit): 0.6108
+Confusion matrix [[TN, FP], [FN, TP]]:
+[[15010   577]
+ [  405   678]]
+Logged to /Users/priyanshushekhar/graphguard/results/results_log.csv
+
+=== GraphSAGE [hc64_lr0.005_do0.5] ===
+Epoch  20 | Loss: 0.2513
+Epoch  40 | Loss: 0.1801
+Epoch  60 | Loss: 0.1393
+Epoch  80 | Loss: 0.1219
+Epoch 100 | Loss: 0.1065
+
+--- GraphSAGE [hc64_lr0.005_do0.5] ---
+Precision (illicit): 0.4272
+Recall    (illicit): 0.6500
+F1        (illicit): 0.5156
+AUC-PR    (illicit): 0.5904
+Confusion matrix [[TN, FP], [FN, TP]]:
+[[14643   944]
+ [  379   704]]
+Logged to /Users/priyanshushekhar/graphguard/results/results_log.csv
+
+=== GAT-Skip [hc32_lr0.01_do0.3] ===
+Epoch  20 | Loss: 0.2663
+Epoch  40 | Loss: 0.1964
+Epoch  60 | Loss: 0.1721
+Epoch  80 | Loss: 0.1562
+Epoch 100 | Loss: 0.1505
+
+--- GAT-Skip [hc32_lr0.01_do0.3] ---
+Precision (illicit): 0.3930
+Recall    (illicit): 0.7054
+F1        (illicit): 0.5048
+AUC-PR    (illicit): 0.5695
+Confusion matrix [[TN, FP], [FN, TP]]:
+[[14407  1180]
+ [  319   764]]
+Logged to /Users/priyanshushekhar/graphguard/results/results_log.csv
+
+=== GAT-Skip [hc64_lr0.01_do0.3] ===
+Epoch  20 | Loss: 0.2827
+Epoch  40 | Loss: 0.2131
+Epoch  60 | Loss: 0.1781
+Epoch  80 | Loss: 0.1607
+Epoch 100 | Loss: 0.1542
+
+--- GAT-Skip [hc64_lr0.01_do0.3] ---
+Precision (illicit): 0.3263
+Recall    (illicit): 0.7387
+F1        (illicit): 0.4526
+AUC-PR    (illicit): 0.5837
+Confusion matrix [[TN, FP], [FN, TP]]:
+[[13935  1652]
+ [  283   800]]
+Logged to /Users/priyanshushekhar/graphguard/results/results_log.csv
+
+=== GAT-Skip [hc64_lr0.005_do0.5] ===
+Epoch  20 | Loss: 0.3270
+Epoch  40 | Loss: 0.2725
+Epoch  60 | Loss: 0.2435
+Epoch  80 | Loss: 0.2223
+Epoch 100 | Loss: 0.2127
+
+--- GAT-Skip [hc64_lr0.005_do0.5] ---
+Precision (illicit): 0.2813
+Recall    (illicit): 0.7479
+F1        (illicit): 0.4089
+AUC-PR    (illicit): 0.4312
+Confusion matrix [[TN, FP], [FN, TP]]:
+[[13518  2069]
+ [  273   810]]
+Logged to /Users/priyanshushekhar/graphguard/results/results_log.csv
+
+
+=== Best config per model ===
+GCN-Skip: F1=0.6005 | {'hidden_channels': 64, 'lr': 0.01, 'dropout': 0.3}
+GraphSAGE: F1=0.5800 | {'hidden_channels': 64, 'lr': 0.01, 'dropout': 0.3}
+GAT-Skip: F1=0.5048 | {'hidden_channels': 32, 'lr': 0.01, 'dropout': 0.3}
