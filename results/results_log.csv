@@ -15,3 +15,8 @@ GraphSAGE [hc64_lr0.005_do0.5],0.4272,0.65,0.5156,0.5904,hyperparam_sweep,2026-0
 GAT-Skip [hc32_lr0.01_do0.3],0.393,0.7054,0.5048,0.5695,hyperparam_sweep,2026-08-16T23:18:27
 GAT-Skip [hc64_lr0.01_do0.3],0.3263,0.7387,0.4526,0.5837,hyperparam_sweep,2026-08-16T23:20:03
 GAT-Skip [hc64_lr0.005_do0.5],0.2813,0.7479,0.4089,0.4312,hyperparam_sweep,2026-08-16T23:21:45
+GCN-Skip [seed=42],0.5893,0.6122,0.6005,0.6111,reproducibility_check,2026-08-16T23:34:25
+GCN-Skip [seed=0],0.5212,0.5891,0.5531,0.5438,reproducibility_check,2026-08-16T23:34:50
+GCN-Skip [seed=1],0.419,0.65,0.5096,0.584,reproducibility_check,2026-08-16T23:35:15
+GCN-Skip [seed=7],0.6726,0.554,0.6076,0.5921,reproducibility_check,2026-08-16T23:35:40
+GCN-Skip [seed=123],0.4243,0.6085,0.5,0.5278,reproducibility_check,2026-08-16T23:36:06GCN-Skip-FINAL,0.5893,0.6122,0.6005,0.6111,frozen_final,2026-08-16T23:38:03

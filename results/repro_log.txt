@@ -1,0 +1,94 @@
+
+=== GCN-Skip, seed=42 ===
+Epoch  20 | Loss: 0.1988
+Epoch  40 | Loss: 0.1414
+Epoch  60 | Loss: 0.1128
+Epoch  80 | Loss: 0.0966
+Epoch 100 | Loss: 0.0866
+
+--- GCN-Skip [seed=42] ---
+Precision (illicit): 0.5893
+Recall    (illicit): 0.6122
+F1        (illicit): 0.6005
+AUC-PR    (illicit): 0.6111
+Confusion matrix [[TN, FP], [FN, TP]]:
+[[15125   462]
+ [  420   663]]
+Logged to /Users/priyanshushekhar/graphguard/results/results_log.csv
+
+=== GCN-Skip, seed=0 ===
+Epoch  20 | Loss: 0.2208
+Epoch  40 | Loss: 0.1627
+Epoch  60 | Loss: 0.1248
+Epoch  80 | Loss: 0.1123
+Epoch 100 | Loss: 0.0977
+
+--- GCN-Skip [seed=0] ---
+Precision (illicit): 0.5212
+Recall    (illicit): 0.5891
+F1        (illicit): 0.5531
+AUC-PR    (illicit): 0.5438
+Confusion matrix [[TN, FP], [FN, TP]]:
+[[15001   586]
+ [  445   638]]
+Logged to /Users/priyanshushekhar/graphguard/results/results_log.csv
+
+=== GCN-Skip, seed=1 ===
+Epoch  20 | Loss: 0.2112
+Epoch  40 | Loss: 0.1509
+Epoch  60 | Loss: 0.1252
+Epoch  80 | Loss: 0.1056
+Epoch 100 | Loss: 0.0985
+
+--- GCN-Skip [seed=1] ---
+Precision (illicit): 0.4190
+Recall    (illicit): 0.6500
+F1        (illicit): 0.5096
+AUC-PR    (illicit): 0.5840
+Confusion matrix [[TN, FP], [FN, TP]]:
+[[14611   976]
+ [  379   704]]
+Logged to /Users/priyanshushekhar/graphguard/results/results_log.csv
+
+=== GCN-Skip, seed=7 ===
+Epoch  20 | Loss: 0.2285
+Epoch  40 | Loss: 0.1627
+Epoch  60 | Loss: 0.1272
+Epoch  80 | Loss: 0.1093
+Epoch 100 | Loss: 0.0954
+
+--- GCN-Skip [seed=7] ---
+Precision (illicit): 0.6726
+Recall    (illicit): 0.5540
+F1        (illicit): 0.6076
+AUC-PR    (illicit): 0.5921
+Confusion matrix [[TN, FP], [FN, TP]]:
+[[15295   292]
+ [  483   600]]
+Logged to /Users/priyanshushekhar/graphguard/results/results_log.csv
+
+=== GCN-Skip, seed=123 ===
+Epoch  20 | Loss: 0.2236
+Epoch  40 | Loss: 0.1620
+Epoch  60 | Loss: 0.1304
+Epoch  80 | Loss: 0.1107
+Epoch 100 | Loss: 0.1073
+
+--- GCN-Skip [seed=123] ---
+Precision (illicit): 0.4243
+Recall    (illicit): 0.6085
+F1        (illicit): 0.5000
+AUC-PR    (illicit): 0.5278
+Confusion matrix [[TN, FP], [FN, TP]]:
+[[14693   894]
+ [  424   659]]
+Logged to /Users/priyanshushekhar/graphguard/results/results_log.csv
+
+
+=== Reproducibility Summary ===
+F1 scores across 5 seeds: [0.6005, 0.5531, 0.5096, 0.6076, 0.5]
+Mean F1: 0.5542
+Std Dev: 0.0445
+Min/Max: 0.5000 / 0.6076
+
+✅ Low variance across seeds — result looks stable.

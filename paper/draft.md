@@ -21,7 +21,29 @@
 
 ## 4. Methodology
 ### 4.1 Graph construction & temporal split
+
+We construct a transaction graph from the Elliptic Bitcoin dataset, where
+nodes represent transactions and directed edges represent the flow of funds
+between them. The graph contains 203,769 nodes and 234,355 edges, each node
+described by 165 anonymized features spanning 49 discrete time steps. To
+reflect a realistic deployment setting and avoid temporal leakage, we adopt
+the standard split used by Weber et al.: nodes from time steps 1-34 form the
+training set, and nodes from time steps 35-49 form the held-out test set.
+Only labeled nodes (illicit or licit) are used for supervised training and
+evaluation; the ~77% of nodes with unknown labels remain part of the graph
+structure but do not contribute to the loss.
+
 ### 4.2 Baseline models
+
+We establish two classical machine learning baselines — Random Forest and
+XGBoost — trained on node features alone, without any use of the graph
+structure. Both models use class-weighting (`class_weight="balanced"` for
+Random Forest, `scale_pos_weight` for XGBoost) to address the substantial
+class imbalance in the training set (~11.6% illicit). These baselines serve
+two purposes: they establish the performance achievable from local features
+alone, and they quantify how much (if anything) the graph structure
+contributes once we introduce GNN models.
+
 ### 4.3 GNN architectures
 - GraphSAGE (Hamilton et al.): 2-layer, hidden dim 64, ReLU, dropout 0.3,
   mean aggregation (PyG default), class-weighted cross-entropy loss,
@@ -44,7 +66,21 @@
   100 epochs each, best selected by illicit-class F1 on the held-out
   temporal test split. Full sweep results logged in
   results/results_log.csv.
+
 ### 4.4 Adversarial attack design
+
+All GNN models are trained transductively on the full graph for 100 epochs
+using the Adam optimizer, with node features standardized via z-score
+normalization (statistics computed from the training split only, to avoid
+information leakage from the test set). We use class-weighted cross-entropy
+loss throughout, with weights computed as the inverse class frequency in the
+training split. A small hyperparameter sweep (Section 4.3) was conducted
+across hidden layer width, learning rate, and dropout for each architecture;
+the best configuration by illicit-class F1 was selected for each. To confirm
+result stability rather than reporting a single favorable run, we additionally
+retrained the best-performing model (GCN-Skip) across 5 random seeds
+(Section 5.2).
+
 ### 4.5 Defense mechanism
 ### 4.6 Explainability
 
