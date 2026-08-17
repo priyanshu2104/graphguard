@@ -81,8 +81,19 @@ result stability rather than reporting a single favorable run, we additionally
 retrained the best-performing model (GCN-Skip) across 5 random seeds
 (Section 5.2).
 
-### 4.5 Defense mechanism
-### 4.6 Explainability
+### 4.5 Adversarial Attack Design
+
+We implement a camouflage-edge evasion attack targeting the frozen GCN-Skip
+model. For each illicit test node correctly classified by the clean model,
+the attack adds `budget` bidirectional edges connecting it to randomly
+sampled licit nodes drawn from the training set (never from the test set,
+to keep the threat model realistic and avoid leaking test-split information
+into the attack). This dilutes the node's graph-aggregated representation
+without altering its own local features. We evaluate at budgets of 1, 3,
+and 5 camouflage edges per node.
+
+### 4.6 Defense mechanism
+### 4.7 Explainability
 
 ## 5. Experiments & Results
 ### 5.1 Baseline vs GNN comparison
@@ -130,6 +141,26 @@ representation before classification) was the change that meaningfully
 closed the gap to GraphSAGE and the classical baselines.
 
 ### 5.2 Robustness evaluation
+
+The camouflage-edge attack substantially degrades GCN-Skip's detection
+ability, with evasion rate increasing monotonically with attack budget:
+
+| Budget | Evasion Rate | Precision | Recall | F1 | AUC-PR |
+|---|---|---|---|---|---|
+| 0 (clean) | — | 0.5893 | 0.6122 | 0.6005 | 0.6111 |
+| 1 | 25.94% | 0.5163 | 0.4534 | 0.4828 | 0.4756 |
+| 3 | 52.64% | 0.4059 | 0.2909 | 0.3389 | 0.3136 |
+| 5 | 64.56% | 0.3376 | 0.2170 | 0.2642 | 0.2382 |
+
+At a budget of just 1 camouflage edge, roughly a quarter of previously
+correctly-flagged illicit wallets evade detection; at 5 edges, nearly
+two-thirds evade. Notably, precision degrades far more slowly than recall,
+and false positives on licit nodes remain nearly constant across all
+budgets (461-462) — consistent with the attack's design, which perturbs
+only illicit nodes' neighborhoods and leaves licit nodes untouched. This
+motivates the defense mechanism developed in Section 4.5 / evaluated in
+Section 5.3.
+
 ### 5.3 Defense evaluation
 ### 5.4 Explainability examples
 

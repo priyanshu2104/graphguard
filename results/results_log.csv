@@ -19,4 +19,9 @@ GCN-Skip [seed=42],0.5893,0.6122,0.6005,0.6111,reproducibility_check,2026-08-16T
 GCN-Skip [seed=0],0.5212,0.5891,0.5531,0.5438,reproducibility_check,2026-08-16T23:34:50
 GCN-Skip [seed=1],0.419,0.65,0.5096,0.584,reproducibility_check,2026-08-16T23:35:15
 GCN-Skip [seed=7],0.6726,0.554,0.6076,0.5921,reproducibility_check,2026-08-16T23:35:40
-GCN-Skip [seed=123],0.4243,0.6085,0.5,0.5278,reproducibility_check,2026-08-16T23:36:06GCN-Skip-FINAL,0.5893,0.6122,0.6005,0.6111,frozen_final,2026-08-16T23:38:03
+GCN-Skip [seed=123],0.4243,0.6085,0.5,0.5278,reproducibility_check,2026-08-16T23:36:06
+GCN-Skip-FINAL,0.5893,0.6122,0.6005,0.6111,frozen_final,2026-08-16T23:38:03
+GCN-Skip [clean],0.5893,0.6122,0.6005,0.6111,attack_eval,2026-08-17T23:49:28
+GCN-Skip [attacked budget=1],0.5163,0.4534,0.4828,0.4756,attack_eval,2026-08-17T23:49:28
+GCN-Skip [attacked budget=3],0.4059,0.2909,0.3389,0.3136,attack_eval,2026-08-17T23:49:28
+GCN-Skip [attacked budget=5],0.3376,0.217,0.2642,0.2382,attack_eval,2026-08-17T23:49:28

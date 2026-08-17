@@ -1,0 +1,4 @@
+budget,total_targets,still_detected,evasion_rate,overall_f1_under_attack,overall_recall_under_attack
+1,663,491,0.2594,0.4828,0.4534
+3,663,314,0.5264,0.3389,0.2909
+5,663,235,0.6456,0.2642,0.217
