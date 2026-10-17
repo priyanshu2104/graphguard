@@ -1,0 +1,24 @@
+Loaded cached GCN-Skip from /Users/priyanshushekhar/graphguard/results/attack_models/GCN-Skip.pt
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 663 (61.2% of illicit test nodes)
+GCN-Skip | clean margin on targets: 25%=1.76 median=3.10 75%=4.52
+GCN-Skip | b=1 | evasion 27.85% ± 1.85%
+GCN-Skip | b=5 | evasion 66.82% ± 0.33%
+GCN-Skip | b=10 | evasion 86.17% ± 1.36%
+GCN-Skip | b=20 | evasion 96.43% ± 0.36%
+Loaded cached GraphSAGE from /Users/priyanshushekhar/graphguard/results/attack_models/GraphSAGE.pt
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 678 (62.6% of illicit test nodes)
+GraphSAGE | clean margin on targets: 25%=2.33 median=3.42 75%=4.75
+GraphSAGE | b=1 | evasion 23.40% ± 0.68%
+GraphSAGE | b=5 | evasion 34.41% ± 0.54%
+GraphSAGE | b=10 | evasion 35.05% ± 1.05%
+GraphSAGE | b=20 | evasion 36.77% ± 0.61%
+Loaded cached GAT-Skip from /Users/priyanshushekhar/graphguard/results/attack_models/GAT-Skip.pt
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 764 (70.5% of illicit test nodes)
+GAT-Skip | clean margin on targets: 25%=2.29 median=3.61 75%=4.55
+GAT-Skip | b=1 | evasion 5.15% ± 0.99%
+GAT-Skip | b=5 | evasion 5.10% ± 0.39%
+GAT-Skip | b=10 | evasion 3.66% ± 0.11%
+GAT-Skip | b=20 | evasion 0.92% ± 0.19%

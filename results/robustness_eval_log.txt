@@ -1,0 +1,153 @@
+
+==================================================
+GCN-Skip
+==================================================
+Loaded cached GCN-Skip from /Users/priyanshushekhar/graphguard/results/attack_models/GCN-Skip.pt
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 663 (61.2% of illicit test nodes)
+
+--- GCN-Skip [clean] ---
+Precision (illicit): 0.5893
+Recall    (illicit): 0.6122
+F1        (illicit): 0.6005
+AUC-PR    (illicit): 0.6111
+Confusion matrix [[TN, FP], [FN, TP]]:
+[[15125   462]
+ [  420   663]]
+
+--- GCN-Skip [attacked b=1] ---
+Precision (illicit): 0.5163
+Recall    (illicit): 0.4534
+F1        (illicit): 0.4828
+AUC-PR    (illicit): 0.4756
+Confusion matrix [[TN, FP], [FN, TP]]:
+[[15127   460]
+ [  592   491]]
+GCN-Skip | budget=1 | evasion_rate=25.94% | F1=0.4828
+
+--- GCN-Skip [attacked b=3] ---
+Precision (illicit): 0.4059
+Recall    (illicit): 0.2909
+F1        (illicit): 0.3389
+AUC-PR    (illicit): 0.3136
+Confusion matrix [[TN, FP], [FN, TP]]:
+[[15126   461]
+ [  768   315]]
+GCN-Skip | budget=3 | evasion_rate=52.64% | F1=0.3389
+
+--- GCN-Skip [attacked b=5] ---
+Precision (illicit): 0.3376
+Recall    (illicit): 0.2170
+F1        (illicit): 0.2642
+AUC-PR    (illicit): 0.2382
+Confusion matrix [[TN, FP], [FN, TP]]:
+[[15126   461]
+ [  848   235]]
+GCN-Skip | budget=5 | evasion_rate=64.56% | F1=0.2642
+
+==================================================
+GraphSAGE
+==================================================
+Loaded cached GraphSAGE from /Users/priyanshushekhar/graphguard/results/attack_models/GraphSAGE.pt
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 678 (62.6% of illicit test nodes)
+
+--- GraphSAGE [clean] ---
+Precision (illicit): 0.5402
+Recall    (illicit): 0.6260
+F1        (illicit): 0.5800
+AUC-PR    (illicit): 0.6108
+Confusion matrix [[TN, FP], [FN, TP]]:
+[[15010   577]
+ [  405   678]]
+
+--- GraphSAGE [attacked b=1] ---
+Precision (illicit): 0.4730
+Recall    (illicit): 0.4774
+F1        (illicit): 0.4752
+AUC-PR    (illicit): 0.4807
+Confusion matrix [[TN, FP], [FN, TP]]:
+[[15011   576]
+ [  566   517]]
+GraphSAGE | budget=1 | evasion_rate=23.75% | F1=0.4752
+
+--- GraphSAGE [attacked b=3] ---
+Precision (illicit): 0.4441
+Recall    (illicit): 0.4257
+F1        (illicit): 0.4347
+AUC-PR    (illicit): 0.4048
+Confusion matrix [[TN, FP], [FN, TP]]:
+[[15010   577]
+ [  622   461]]
+GraphSAGE | budget=3 | evasion_rate=32.01% | F1=0.4347
+
+--- GraphSAGE [attacked b=5] ---
+Precision (illicit): 0.4536
+Recall    (illicit): 0.4423
+F1        (illicit): 0.4479
+AUC-PR    (illicit): 0.3982
+Confusion matrix [[TN, FP], [FN, TP]]:
+[[15010   577]
+ [  604   479]]
+GraphSAGE | budget=5 | evasion_rate=29.35% | F1=0.4479
+
+==================================================
+GAT-Skip
+==================================================
+Loaded cached GAT-Skip from /Users/priyanshushekhar/graphguard/results/attack_models/GAT-Skip.pt
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 764 (70.5% of illicit test nodes)
+
+--- GAT-Skip [clean] ---
+Precision (illicit): 0.3930
+Recall    (illicit): 0.7054
+F1        (illicit): 0.5048
+AUC-PR    (illicit): 0.5695
+Confusion matrix [[TN, FP], [FN, TP]]:
+[[14407  1180]
+ [  319   764]]
+
+--- GAT-Skip [attacked b=1] ---
+Precision (illicit): 0.3789
+Recall    (illicit): 0.6648
+F1        (illicit): 0.4827
+AUC-PR    (illicit): 0.5526
+Confusion matrix [[TN, FP], [FN, TP]]:
+[[14407  1180]
+ [  363   720]]
+GAT-Skip | budget=1 | evasion_rate=6.02% | F1=0.4827
+
+--- GAT-Skip [attacked b=3] ---
+Precision (illicit): 0.3786
+Recall    (illicit): 0.6639
+F1        (illicit): 0.4822
+AUC-PR    (illicit): 0.5666
+Confusion matrix [[TN, FP], [FN, TP]]:
+[[14407  1180]
+ [  364   719]]
+GAT-Skip | budget=3 | evasion_rate=6.02% | F1=0.4822
+
+--- GAT-Skip [attacked b=5] ---
+Precision (illicit): 0.3827
+Recall    (illicit): 0.6750
+F1        (illicit): 0.4885
+AUC-PR    (illicit): 0.5763
+Confusion matrix [[TN, FP], [FN, TP]]:
+[[14408  1179]
+ [  352   731]]
+GAT-Skip | budget=5 | evasion_rate=4.45% | F1=0.4885
+
+GNN robustness table saved to /Users/priyanshushekhar/graphguard/results/robustness_table.csv
+architecture  budget  evasion_rate  f1_illicit  recall_illicit
+    GCN-Skip       0        0.0000      0.6005          0.6122
+    GCN-Skip       1        0.2594      0.4828          0.4534
+    GCN-Skip       3        0.5264      0.3389          0.2909
+    GCN-Skip       5        0.6456      0.2642          0.2170
+   GraphSAGE       0        0.0000      0.5800          0.6260
+   GraphSAGE       1        0.2375      0.4752          0.4774
+   GraphSAGE       3        0.3201      0.4347          0.4257
+   GraphSAGE       5        0.2935      0.4479          0.4423
+    GAT-Skip       0        0.0000      0.5048          0.7054
+    GAT-Skip       1        0.0602      0.4827          0.6648
+    GAT-Skip       3        0.0602      0.4822          0.6639
+    GAT-Skip       5        0.0445      0.4885          0.6750

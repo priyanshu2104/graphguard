@@ -1,0 +1,12 @@
+Loaded cached GAT-Skip from /Users/priyanshushekhar/graphguard/results/attack_models/GAT-Skip.pt
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 764 (70.5% of illicit test nodes)
+b=1 | camouflage edges: n=764, attention/uniform = 0.31
+b=1 | original edges: n=1154, attention/uniform = 0.65
+b=1 | self-loops: n=764, attention/uniform = 2.23
+b=5 | camouflage edges: n=3820, attention/uniform = 0.52
+b=5 | original edges: n=1154, attention/uniform = 0.90
+b=5 | self-loops: n=764, attention/uniform = 3.53
+b=20 | camouflage edges: n=15280, attention/uniform = 0.78
+b=20 | original edges: n=1154, attention/uniform = 1.28
+b=20 | self-loops: n=764, attention/uniform = 5.06

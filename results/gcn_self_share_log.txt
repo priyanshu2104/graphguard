@@ -1,0 +1,7 @@
+Loaded cached GAT-Skip from /Users/priyanshushekhar/graphguard/results/attack_models/GAT-Skip.pt
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 764 (70.5% of illicit test nodes)
+b=0  | GCN self-share 55.2%
+b=1  | GCN self-share 33.7%
+b=5  | GCN self-share 9.9%
+b=20 | GCN self-share 1.8%

@@ -25,3 +25,13 @@ GCN-Skip [clean],0.5893,0.6122,0.6005,0.6111,attack_eval,2026-08-17T23:49:28
 GCN-Skip [attacked budget=1],0.5163,0.4534,0.4828,0.4756,attack_eval,2026-08-17T23:49:28
 GCN-Skip [attacked budget=3],0.4059,0.2909,0.3389,0.3136,attack_eval,2026-08-17T23:49:28
 GCN-Skip [attacked budget=5],0.3376,0.217,0.2642,0.2382,attack_eval,2026-08-17T23:49:28
+Random Forest,0.9908,0.6934,0.8159,0.7897,baseline_temporal,2026-08-27T17:31:02
+Random Forest,0.9908,0.6934,0.8159,0.7897,baseline_temporal,2026-08-27T17:33:16
+Random Forest,0.9908,0.6934,0.8159,0.7897,baseline_temporal,2026-10-16T17:05:16
+Random Forest,0.9908,0.6934,0.8159,0.7897,baseline_temporal,2026-10-16T17:05:35
+Random Forest,0.9908,0.6934,0.8159,0.7897,baseline_temporal,2026-10-16T17:19:13
+Random Forest,0.9908,0.6934,0.8159,0.7897,baseline_temporal,2026-10-16T17:19:46
+Random Forest,0.9908,0.6934,0.8159,0.7897,baseline_temporal,2026-10-18T02:31:28
+Random Forest,0.9908,0.6934,0.8159,0.7897,baseline_temporal,2026-10-18T02:31:47
+Random Forest,0.9908,0.6934,0.8159,0.7897,baseline_temporal,2026-10-18T02:32:33
+XGBoost,0.8422,0.7341,0.7844,0.8023,baseline_temporal,2026-10-18T02:32:34

@@ -1,0 +1,21 @@
+Loaded cached GCN-Skip from /Users/priyanshushekhar/graphguard/results/attack_models/GCN-Skip.pt
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 663 (61.2% of illicit test nodes)
+GCN-Skip | in-degree 0-0 | n=96 | evasion 55.4%
+GCN-Skip | in-degree 1-2 | n=561 | evasion 51.6%
+GCN-Skip | in-degree 3-5 | n=2 | evasion 90.0%
+GCN-Skip | in-degree 6-+ | n=4 | evasion 5.0%
+Loaded cached GraphSAGE from /Users/priyanshushekhar/graphguard/results/attack_models/GraphSAGE.pt
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 678 (62.6% of illicit test nodes)
+GraphSAGE | in-degree 0-0 | n=107 | evasion 43.4%
+GraphSAGE | in-degree 1-2 | n=563 | evasion 29.0%
+GraphSAGE | in-degree 3-5 | n=1 | evasion 80.0%
+GraphSAGE | in-degree 6-+ | n=7 | evasion 0.0%
+Loaded cached GAT-Skip from /Users/priyanshushekhar/graphguard/results/attack_models/GAT-Skip.pt
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 764 (70.5% of illicit test nodes)
+GAT-Skip | in-degree 0-0 | n=130 | evasion 8.3%
+GAT-Skip | in-degree 1-2 | n=622 | evasion 4.8%
+GAT-Skip | in-degree 3-5 | n=3 | evasion 20.0%
+GAT-Skip | in-degree 6-+ | n=9 | evasion 2.2%

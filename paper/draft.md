@@ -92,6 +92,20 @@ into the attack). This dilutes the node's graph-aggregated representation
 without altering its own local features. We evaluate at budgets of 1, 3,
 and 5 camouflage edges per node.
 
+**Evaluation protocol.** For each model, the attack targets are the illicit
+test nodes that the clean model classifies correctly (663, 678 and 764 nodes
+for GCN-Skip, GraphSAGE and GAT-Skip respectively). The evasion rate is the
+fraction of these targets classified as licit after the attack; it is zero on
+the clean graph by construction. We evaluate budgets of 1, 3 and 5 camouflage
+edges per target, plus 10 and 20 in a supplementary run. The random choice of
+licit partners is repeated over five seeds for budgets 1, 3 and 5 and over
+three seeds for budgets 10 and 20, and we report mean ± standard deviation.
+Precision, recall, F1 and AUC-PR are computed over the full labelled test set
+for a single attack draw (seed 42). Each architecture was trained once (seed
+42) with its best configuration from the hyperparameter sweep, so the
+reported variability reflects the attacker's random choice of partners, not
+variation in training.
+
 ### 4.6 Defense mechanism
 ### 4.7 Explainability
 
@@ -142,29 +156,130 @@ closed the gap to GraphSAGE and the classical baselines.
 
 ### 5.2 Robustness evaluation
 
-The camouflage-edge attack substantially degrades GCN-Skip's detection
-ability, with evasion rate increasing monotonically with attack budget:
+## 5.2 Adversarial Robustness Results
 
-| Budget | Evasion Rate | Precision | Recall | F1 | AUC-PR |
-|---|---|---|---|---|---|
-| 0 (clean) | — | 0.5893 | 0.6122 | 0.6005 | 0.6111 |
-| 1 | 25.94% | 0.5163 | 0.4534 | 0.4828 | 0.4756 |
-| 3 | 52.64% | 0.4059 | 0.2909 | 0.3389 | 0.3136 |
-| 5 | 64.56% | 0.3376 | 0.2170 | 0.2642 | 0.2382 |
+**Table 3.** Evasion rate (%) of correctly detected illicit test nodes under
+random camouflage, mean ± std over sampling seeds. Budgets 1, 3, 5: five
+seeds; budgets 10, 20: three seeds.
 
-At a budget of just 1 camouflage edge, roughly a quarter of previously
-correctly-flagged illicit wallets evade detection; at 5 edges, nearly
-two-thirds evade. Notably, precision degrades far more slowly than recall,
-and false positives on licit nodes remain nearly constant across all
-budgets (461-462) — consistent with the attack's design, which perturbs
-only illicit nodes' neighborhoods and leaves licit nodes untouched. This
-motivates the defense mechanism developed in Section 4.5 / evaluated in
-Section 5.3.
+| Model | Targets | b=1 | b=3 | b=5 | b=10 | b=20 |
+|---|---|---|---|---|---|---|
+| GCN-Skip | 663 | 26.9 ± 2.0 | 52.0 ± 1.4 | 66.9 ± 0.4 | 86.2 ± 1.4 | 96.4 ± 0.4 |
+| GraphSAGE | 678 | 22.5 ± 1.5 | 31.1 ± 0.8 | 33.9 ± 0.8 | 35.1 ± 1.1 | 36.8 ± 0.6 |
+| GAT-Skip | 764 | 5.1 ± 1.0 | 5.4 ± 0.3 | 5.1 ± 0.5 | 3.7 ± 0.1 | 0.9 ± 0.2 |
+| Random Forest, XGBoost | — | 0 | 0 | 0 | 0 | 0 |
+
+Random Forest and XGBoost are structurally immune: the attack adds edges and
+never modifies node features, so their predictions are identical before and
+after.
+
+**Table 4.** Test-set performance under attack (single attack draw, seed 42).
+
+| Model | Clean F1 | F1 b=1 | F1 b=3 | F1 b=5 | Clean recall | Recall b=5 |
+|---|---|---|---|---|---|---|
+| GCN-Skip | 0.6005 | 0.4828 | 0.3389 | 0.2642 | 0.6122 | 0.2170 |
+| GraphSAGE | 0.5800 | 0.4752 | 0.4347 | 0.4479 | 0.6260 | 0.4423 |
+| GAT-Skip | 0.5048 | 0.4827 | 0.4822 | 0.4885 | 0.7054 | 0.6750 |
+| Random Forest | 0.8159 | 0.8159 | 0.8159 | 0.8159 | 0.6934 | 0.6934 |
+| XGBoost | 0.7844 | 0.7844 | 0.7844 | 0.7844 | 0.7341 | 0.7341 |
+
+**The ranking inverts under attack.** GCN-Skip has the highest clean F1
+among the GNNs (0.6005) and the lowest under attack, while GAT-Skip is the
+reverse: at b=5 its F1 (0.4885) exceeds GCN-Skip's (0.2642) despite starting
+0.096 lower. GAT-Skip's advantage is not free, however: it produces 1,180
+false positives on the clean test set versus 462 for GCN-Skip.
+
+**False positives are unaffected by the attack.** They stay within three of
+the clean value for every model (GCN-Skip 462 → 460–461, GraphSAGE 577 →
+576–577, GAT-Skip 1,180 → 1,179–1,180). This is consistent with an attack
+that perturbs only illicit nodes' neighbourhoods; the loss in F1 comes from
+recall.
+
+**The three architectures respond differently to budget.** GCN-Skip's
+evasion rate keeps rising and reaches 96.4% at b=20. GraphSAGE's flattens at
+roughly 34–37% from b=5 onward, so about two thirds of its targets remain
+detected even at b=20. GAT-Skip's is flat at about 5% for b ≤ 5 and
+then falls to 0.9% at b=20, i.e. additional camouflage edges make it less
+likely to flip. We do not have an explanation for this decline (see
+Section 6).
+
+**The gap is not explained by prediction confidence.** The median clean logit
+margin (illicit minus licit) on the targets is 3.10, 3.42 and 3.61 for
+GCN-Skip, GraphSAGE and GAT-Skip. These are similar in magnitude, so GAT-Skip
+does not simply start further from the decision boundary. Logit scales are
+not strictly comparable across architectures, so we treat this as evidence
+against, not a proof against, a confidence explanation.
+
+**Targets are overwhelmingly low-degree.** About 99% of targets have
+in-degree at most 2 (GCN-Skip 657 of 663, GraphSAGE 670 of 678, GAT-Skip 752
+of 764). Within the in-degree 1–2 bin (561–622 targets per model), evasion at
+b=3 is 51.6%, 29.0% and 4.8% respectively, so the model differences are not
+explained by differences in the targets' in-degree. Bins with in-degree ≥ 3
+contain only 6–12 targets per model and are not interpreted.
 
 ### 5.3 Defense evaluation
+
+## 5.3 Explainability Under Attack
+
+We compared GNNExplainer feature-importance vectors for the frozen GCN-Skip
+model before and after a budget-3 camouflage attack on [N] randomly sampled
+correctly-detected illicit test nodes ([n_evaded] evaded, [n_not] did not).
+Explanations were computed on each node's 3-hop subgraph, which we verified
+reproduces the full-graph logits.
+
+The explainer is itself unstable: explaining the same node twice on the same
+graph gives only [floor_overlap]/5 overlap in the top-5 features, so top-k
+overlap is not a usable metric here. We therefore report Spearman rank
+correlation across all 165 features, where the run-to-run baseline is
+ρ = [floor_rho].
+
+Clean-versus-attacked correlation was ρ = [rho_evaded] for nodes that evaded
+and ρ = [rho_not] for nodes that did not (Mann–Whitney p = [p]).
+
+[If p ≥ 0.05] We find no evidence that evaded nodes' explanations change more
+than those of nodes that remained detected; both groups diverge from the
+clean explanation by more than the explainer's own run-to-run baseline.
+
 ### 5.4 Explainability examples
 
 ## 6. Discussion & Limitations
+
+## 6. Discussion & Limitations
+
+**Why do the architectures differ?** We examined the layer-1 aggregation
+weights for the 764 GAT-Skip targets. In GCN, the weight on a node's own
+features is fixed by degree normalisation; the share of total aggregation
+weight on the node itself falls from 55.2% on the clean graph to 33.7%, 9.9%
+and 1.8% at b = 1, 5 and 20. GAT-Skip instead learns to up-weight self-loops
+(attention 2.2×, 3.5× and 5.1× a uniform share at b = 1, 5, 20) and assigns
+camouflage edges 0.31×, 0.52× and 0.78× a uniform share, against 0.65×,
+0.90× and 1.28× for original edges into the same nodes. GraphSAGE applies a
+separate transformation to the node's own features. The ordering of
+own-feature retention across the three architectures matches the ordering of
+vulnerability, which is consistent with a dilution explanation. We treat this
+as a hypothesis, not a finding: it compares three architectures that differ
+in other respects, it covers the first layer only, and it does not account for
+the decline of GAT-Skip's evasion rate at large budgets, which remains
+unexplained. At b=20, the 20 camouflage edges per target, each at 0.78× a
+uniform share, still account for most of the layer-1 attention mass the
+targets receive (derived from the ratios above), so attention suppression
+alone cannot be the explanation.
+
+**Limitations.**
+- Each architecture was trained once (seed 42); reported variability covers
+  the attacker's sampling only, not training variation.
+- The attack is non-adaptive: licit partners are chosen at random. A
+  feature-aware attacker may be considerably stronger (evaluated in the
+  defence experiments).
+- About 99% of targets have in-degree at most 2, so conclusions apply to
+  sparsely connected wallets.
+- Evasion is measured only over nodes the clean model detects. GAT-Skip
+  detects more illicit nodes but at a substantially higher false-positive
+  count (1,180 vs 462 for GCN-Skip), so its robustness comes with a precision
+  cost.
+- GNNExplainer is stochastic, and the explanation analysis uses a sample of
+  [N] nodes on one budget.
+- All experiments use a single dataset.
 
 ## 7. Conclusion & Future Work
 

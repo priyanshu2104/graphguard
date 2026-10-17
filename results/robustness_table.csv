@@ -1,0 +1,21 @@
+architecture,budget,evasion_rate,model,precision_illicit,recall_illicit,f1_illicit,auc_pr_illicit
+GCN-Skip,0,0.0,GCN-Skip [clean],0.5893,0.6122,0.6005,0.6111
+GCN-Skip,1,0.2594,GCN-Skip [attacked b=1],0.5163,0.4534,0.4828,0.4756
+GCN-Skip,3,0.5264,GCN-Skip [attacked b=3],0.4059,0.2909,0.3389,0.3136
+GCN-Skip,5,0.6456,GCN-Skip [attacked b=5],0.3376,0.217,0.2642,0.2382
+GraphSAGE,0,0.0,GraphSAGE [clean],0.5402,0.626,0.58,0.6108
+GraphSAGE,1,0.2375,GraphSAGE [attacked b=1],0.473,0.4774,0.4752,0.4807
+GraphSAGE,3,0.3201,GraphSAGE [attacked b=3],0.4441,0.4257,0.4347,0.4048
+GraphSAGE,5,0.2935,GraphSAGE [attacked b=5],0.4536,0.4423,0.4479,0.3982
+GAT-Skip,0,0.0,GAT-Skip [clean],0.393,0.7054,0.5048,0.5695
+GAT-Skip,1,0.0602,GAT-Skip [attacked b=1],0.3789,0.6648,0.4827,0.5526
+GAT-Skip,3,0.0602,GAT-Skip [attacked b=3],0.3786,0.6639,0.4822,0.5666
+GAT-Skip,5,0.0445,GAT-Skip [attacked b=5],0.3827,0.675,0.4885,0.5763
+Random Forest,0,0.0,Random Forest [clean],0.9908,0.6934,0.8159,0.7897
+Random Forest,1,0.0,Random Forest [attacked b=1] (structurally immune),0.9908,0.6934,0.8159,0.7897
+Random Forest,3,0.0,Random Forest [attacked b=3] (structurally immune),0.9908,0.6934,0.8159,0.7897
+Random Forest,5,0.0,Random Forest [attacked b=5] (structurally immune),0.9908,0.6934,0.8159,0.7897
+XGBoost,0,0.0,XGBoost [clean],0.8422,0.7341,0.7844,0.8023
+XGBoost,1,0.0,XGBoost [attacked b=1] (structurally immune),0.8422,0.7341,0.7844,0.8023
+XGBoost,3,0.0,XGBoost [attacked b=3] (structurally immune),0.8422,0.7341,0.7844,0.8023
+XGBoost,5,0.0,XGBoost [attacked b=5] (structurally immune),0.8422,0.7341,0.7844,0.8023
