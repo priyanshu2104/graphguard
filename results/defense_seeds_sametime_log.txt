@@ -1,0 +1,53 @@
+A) No-graph model
+Epoch  20 | Loss: 0.1639
+Epoch  40 | Loss: 0.1113
+Epoch  60 | Loss: 0.0889
+Epoch  80 | Loss: 0.0705
+Epoch 100 | Loss: 0.0653
+   seed 42: F1 0.630  AUC-PR 0.611
+Epoch  20 | Loss: 0.1758
+Epoch  40 | Loss: 0.1192
+Epoch  60 | Loss: 0.0858
+Epoch  80 | Loss: 0.0740
+Epoch 100 | Loss: 0.0676
+   seed 0: F1 0.627  AUC-PR 0.604
+Epoch  20 | Loss: 0.1663
+Epoch  40 | Loss: 0.1108
+Epoch  60 | Loss: 0.0828
+Epoch  80 | Loss: 0.0715
+Epoch 100 | Loss: 0.0658
+   seed 1: F1 0.668  AUC-PR 0.665
+   no-graph F1 0.642 ± 0.023 | AUC-PR 0.626 ± 0.033
+
+B) Pruned GCN-Skip
+Loaded cached GCN-Skip from /Users/priyanshushekhar/graphguard/results/attack_models/GCN-Skip.pt
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 663 (61.2% of illicit test nodes)
+   seed 42 q=0.00: clean F1 0.601 | worst adaptive F1 0.299 recall 0.251
+   seed 42 q=0.25: clean F1 0.597 | worst adaptive F1 0.440 recall 0.401
+   seed 42 q=0.50: clean F1 0.588 | worst adaptive F1 0.412 recall 0.379
+Epoch  20 | Loss: 0.2208
+Epoch  40 | Loss: 0.1627
+Epoch  60 | Loss: 0.1248
+Epoch  80 | Loss: 0.1123
+Epoch 100 | Loss: 0.0977
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 638 (58.9% of illicit test nodes)
+   seed 0 q=0.00: clean F1 0.553 | worst adaptive F1 0.285 recall 0.257
+   seed 0 q=0.25: clean F1 0.558 | worst adaptive F1 0.393 recall 0.375
+   seed 0 q=0.50: clean F1 0.547 | worst adaptive F1 0.317 recall 0.286
+Epoch  20 | Loss: 0.2112
+Epoch  40 | Loss: 0.1509
+Epoch  60 | Loss: 0.1252
+Epoch  80 | Loss: 0.1056
+Epoch 100 | Loss: 0.0985
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 704 (65.0% of illicit test nodes)
+   seed 1 q=0.00: clean F1 0.510 | worst adaptive F1 0.178 recall 0.186
+   seed 1 q=0.25: clean F1 0.511 | worst adaptive F1 0.357 recall 0.412
+   seed 1 q=0.50: clean F1 0.509 | worst adaptive F1 0.344 recall 0.395
+
+   Mean ± sample std over training seeds
+   q=0.00: clean F1 0.554 ± 0.045 | worst adaptive F1 0.254 ± 0.066 | worst recall 0.231 ± 0.040
+   q=0.25: clean F1 0.555 ± 0.043 | worst adaptive F1 0.397 ± 0.042 | worst recall 0.396 ± 0.019
+   q=0.50: clean F1 0.548 ± 0.040 | worst adaptive F1 0.357 ± 0.049 | worst recall 0.353 ± 0.059

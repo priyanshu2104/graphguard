@@ -35,3 +35,4 @@ Random Forest,0.9908,0.6934,0.8159,0.7897,baseline_temporal,2026-10-18T02:31:28
 Random Forest,0.9908,0.6934,0.8159,0.7897,baseline_temporal,2026-10-18T02:31:47
 Random Forest,0.9908,0.6934,0.8159,0.7897,baseline_temporal,2026-10-18T02:32:33
 XGBoost,0.8422,0.7341,0.7844,0.8023,baseline_temporal,2026-10-18T02:32:34
+GCN-Skip [no graph],0.7475,0.5439,0.6296,0.6108,defense_reference,2026-10-18T20:01:06

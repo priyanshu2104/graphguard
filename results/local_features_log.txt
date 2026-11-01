@@ -1,0 +1,50 @@
+Epoch  20 | Loss: 0.3056
+Epoch  40 | Loss: 0.2565
+Epoch  60 | Loss: 0.2292
+Epoch  80 | Loss: 0.2096
+Epoch 100 | Loss: 0.2000
+seed 42 | local features, graph: F1 0.357  AUC-PR 0.391
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 822 (75.9% of illicit test nodes)
+         adaptive attack b=3: evasion 99.3%
+Epoch  20 | Loss: 0.2197
+Epoch  40 | Loss: 0.1757
+Epoch  60 | Loss: 0.1573
+Epoch  80 | Loss: 0.1416
+Epoch 100 | Loss: 0.1310
+seed 42 | local features, no graph: F1 0.455  AUC-PR 0.641
+Epoch  20 | Loss: 0.3145
+Epoch  40 | Loss: 0.2629
+Epoch  60 | Loss: 0.2316
+Epoch  80 | Loss: 0.2184
+Epoch 100 | Loss: 0.1988
+seed 0 | local features, graph: F1 0.329  AUC-PR 0.391
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 824 (76.1% of illicit test nodes)
+         adaptive attack b=3: evasion 99.2%
+Epoch  20 | Loss: 0.2230
+Epoch  40 | Loss: 0.1822
+Epoch  60 | Loss: 0.1589
+Epoch  80 | Loss: 0.1434
+Epoch 100 | Loss: 0.1327
+seed 0 | local features, no graph: F1 0.420  AUC-PR 0.563
+Epoch  20 | Loss: 0.3027
+Epoch  40 | Loss: 0.2528
+Epoch  60 | Loss: 0.2258
+Epoch  80 | Loss: 0.2073
+Epoch 100 | Loss: 0.1934
+seed 1 | local features, graph: F1 0.363  AUC-PR 0.419
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 829 (76.5% of illicit test nodes)
+         adaptive attack b=3: evasion 98.6%
+Epoch  20 | Loss: 0.2205
+Epoch  40 | Loss: 0.1723
+Epoch  60 | Loss: 0.1489
+Epoch  80 | Loss: 0.1374
+Epoch 100 | Loss: 0.1251
+seed 1 | local features, no graph: F1 0.450  AUC-PR 0.541
+
+Mean ± sample std over training seeds (local features only)
+  graph     F1 0.350 ± 0.018 | AUC-PR 0.400 ± 0.016
+  no graph  F1 0.442 ± 0.019 | AUC-PR 0.582 ± 0.052
+  evasion of the with-graph model, adaptive b=3: 99.0% ± 0.4%

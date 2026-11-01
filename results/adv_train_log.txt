@@ -1,0 +1,63 @@
+Loaded cached GCN-Skip from /Users/priyanshushekhar/graphguard/results/attack_models/GCN-Skip.pt
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 663 (61.2% of illicit test nodes)
+Loaded cached GraphSAGE from /Users/priyanshushekhar/graphguard/results/attack_models/GraphSAGE.pt
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 678 (62.6% of illicit test nodes)
+Loaded cached GAT-Skip from /Users/priyanshushekhar/graphguard/results/attack_models/GAT-Skip.pt
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 764 (70.5% of illicit test nodes)
+seed 42 | epoch 20 | loss 0.2739
+seed 42 | epoch 40 | loss 0.2320
+seed 42 | epoch 60 | loss 0.2365
+seed 42 | epoch 80 | loss 0.1964
+seed 42 | epoch 100 | loss 0.2092
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 959 (88.6% of illicit test nodes)
+seed 0 | epoch 20 | loss 0.2945
+seed 0 | epoch 40 | loss 0.2486
+seed 0 | epoch 60 | loss 0.2188
+seed 0 | epoch 80 | loss 0.2192
+seed 0 | epoch 100 | loss 0.2013
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 913 (84.3% of illicit test nodes)
+seed 1 | epoch 20 | loss 0.2762
+seed 1 | epoch 40 | loss 0.2298
+seed 1 | epoch 60 | loss 0.2138
+seed 1 | epoch 80 | loss 0.2044
+seed 1 | epoch 100 | loss 0.1917
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 798 (73.7% of illicit test nodes)
+                                        f1        recall               fp         evasion       
+                                      mean    std   mean    std      mean     std    mean    std
+group                attack  budget                                                             
+adv-train            nearest 1       0.299  0.021  0.810  0.074  3953.333  786.71   0.016  0.008
+                             3       0.295  0.020  0.798  0.074  3953.333  786.71   0.032  0.006
+                             5       0.292  0.018  0.790  0.079  3953.333  786.71   0.042  0.008
+                     none    0       0.302  0.020  0.822  0.077  3953.333  786.71   0.000  0.000
+                     random  1       0.292  0.020  0.789  0.071  3953.333  786.71   0.042  0.003
+                             3       0.280  0.020  0.752  0.065  3953.333  786.71   0.087  0.007
+                             5       0.268  0.017  0.713  0.068  3953.333  786.71   0.134  0.003
+undefended GAT-Skip  nearest 1       0.503    NaN  0.703    NaN  1180.000     NaN   0.007    NaN
+                             3       0.501    NaN  0.699    NaN  1181.000     NaN   0.012    NaN
+                             5       0.502    NaN  0.701    NaN  1181.000     NaN   0.010    NaN
+                     none    0       0.505    NaN  0.705    NaN  1180.000     NaN   0.000    NaN
+                     random  1       0.486    NaN  0.671    NaN  1179.800     NaN   0.051    NaN
+                             3       0.485    NaN  0.669    NaN  1180.000     NaN   0.054    NaN
+                             5       0.486    NaN  0.670    NaN  1179.800     NaN   0.051    NaN
+undefended GCN-Skip  nearest 1       0.581    NaN  0.584    NaN   462.000     NaN   0.048    NaN
+                             3       0.569    NaN  0.568    NaN   462.000     NaN   0.072    NaN
+                             5       0.562    NaN  0.558    NaN   462.000     NaN   0.089    NaN
+                     none    0       0.601    NaN  0.612    NaN   462.000     NaN   0.000    NaN
+                     random  1       0.478    NaN  0.448    NaN   461.600     NaN   0.269    NaN
+                             3       0.342    NaN  0.294    NaN   461.000     NaN   0.520    NaN
+                             5       0.249    NaN  0.203    NaN   460.800     NaN   0.668    NaN
+undefended GraphSAGE nearest 1       0.572    NaN  0.614    NaN   577.000     NaN   0.019    NaN
+                             3       0.569    NaN  0.609    NaN   577.000     NaN   0.027    NaN
+                             5       0.569    NaN  0.609    NaN   577.000     NaN   0.027    NaN
+                     none    0       0.580    NaN  0.626    NaN   577.000     NaN   0.000    NaN
+                     random  1       0.481    NaN  0.485    NaN   576.800     NaN   0.225    NaN
+                             3       0.440    NaN  0.432    NaN   576.800     NaN   0.311    NaN
+                             5       0.425    NaN  0.414    NaN   576.800     NaN   0.339    NaN
+
+Saved to /Users/priyanshushekhar/graphguard/results/defense_eval.csv

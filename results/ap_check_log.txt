@@ -1,0 +1,12 @@
+Loaded cached GCN-Skip from /Users/priyanshushekhar/graphguard/results/attack_models/GCN-Skip.pt
+GCN-Skip             AP 0.6111 | ROC-AUC 0.9001 | distinct probs 16109 | p>0.999 0.2% | p<0.001 53.0%
+Loaded cached GraphSAGE from /Users/priyanshushekhar/graphguard/results/attack_models/GraphSAGE.pt
+GraphSAGE            AP 0.6108 | ROC-AUC 0.9015 | distinct probs 15961 | p>0.999 0.4% | p<0.001 59.0%
+Loaded cached GAT-Skip from /Users/priyanshushekhar/graphguard/results/attack_models/GAT-Skip.pt
+GAT-Skip             AP 0.5695 | ROC-AUC 0.9076 | distinct probs 16211 | p>0.999 0.2% | p<0.001 46.4%
+Epoch  20 | Loss: 0.1639
+Epoch  40 | Loss: 0.1113
+Epoch  60 | Loss: 0.0889
+Epoch  80 | Loss: 0.0705
+Epoch 100 | Loss: 0.0653
+GCN-Skip [no graph]  AP 0.6108 | ROC-AUC 0.9053 | distinct probs 16121 | p>0.999 0.1% | p<0.001 79.9%

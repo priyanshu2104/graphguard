@@ -1,0 +1,65 @@
+Loaded cached GCN-Skip from /Users/priyanshushekhar/graphguard/results/attack_models/GCN-Skip.pt
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 663 (61.2% of illicit test nodes)
+GCN-Skip seed 42: clean F1 0.601 | strongest-variant evasion b=1: 84.5% b=3: 98.9% b=5: 99.4%
+Epoch  20 | Loss: 0.2208
+Epoch  40 | Loss: 0.1627
+Epoch  60 | Loss: 0.1248
+Epoch  80 | Loss: 0.1123
+Epoch 100 | Loss: 0.0977
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 638 (58.9% of illicit test nodes)
+GCN-Skip seed 0: clean F1 0.553 | strongest-variant evasion b=1: 89.5% b=3: 99.1% b=5: 99.8%
+Epoch  20 | Loss: 0.2112
+Epoch  40 | Loss: 0.1509
+Epoch  60 | Loss: 0.1252
+Epoch  80 | Loss: 0.1056
+Epoch 100 | Loss: 0.0985
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 704 (65.0% of illicit test nodes)
+GCN-Skip seed 1: clean F1 0.510 | strongest-variant evasion b=1: 89.8% b=3: 99.0% b=5: 99.7%
+Loaded cached GraphSAGE from /Users/priyanshushekhar/graphguard/results/attack_models/GraphSAGE.pt
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 678 (62.6% of illicit test nodes)
+GraphSAGE seed 42: clean F1 0.580 | strongest-variant evasion b=1: 69.9% b=3: 91.0% b=5: 96.5%
+Epoch  20 | Loss: 0.2025
+Epoch  40 | Loss: 0.1311
+Epoch  60 | Loss: 0.1042
+Epoch  80 | Loss: 0.0863
+Epoch 100 | Loss: 0.0730
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 689 (63.6% of illicit test nodes)
+GraphSAGE seed 0: clean F1 0.581 | strongest-variant evasion b=1: 70.8% b=3: 92.3% b=5: 98.3%
+Epoch  20 | Loss: 0.2085
+Epoch  40 | Loss: 0.1383
+Epoch  60 | Loss: 0.1091
+Epoch  80 | Loss: 0.0940
+Epoch 100 | Loss: 0.0786
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 664 (61.3% of illicit test nodes)
+GraphSAGE seed 1: clean F1 0.557 | strongest-variant evasion b=1: 72.0% b=3: 91.3% b=5: 95.2%
+Loaded cached GAT-Skip from /Users/priyanshushekhar/graphguard/results/attack_models/GAT-Skip.pt
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 764 (70.5% of illicit test nodes)
+GAT-Skip seed 42: clean F1 0.505 | strongest-variant evasion b=1: 24.6% b=3: 46.1% b=5: 60.1%
+Epoch  20 | Loss: 0.2733
+Epoch  40 | Loss: 0.2030
+Epoch  60 | Loss: 0.1757
+Epoch  80 | Loss: 0.1702
+Epoch 100 | Loss: 0.1529
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 718 (66.3% of illicit test nodes)
+GAT-Skip seed 0: clean F1 0.498 | strongest-variant evasion b=1: 26.3% b=3: 48.6% b=5: 54.3%
+Epoch  20 | Loss: 0.2436
+Epoch  40 | Loss: 0.1890
+Epoch  60 | Loss: 0.1685
+Epoch  80 | Loss: 0.1577
+Epoch 100 | Loss: 0.1493
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 789 (72.9% of illicit test nodes)
+GAT-Skip seed 1: clean F1 0.483 | strongest-variant evasion b=1: 20.3% b=3: 45.1% b=5: 60.5%
+
+Mean ± std over training seeds
+GCN-Skip   clean F1 0.554 ± 0.037 | b=1 evasion 87.9% ± 2.4% | b=3 evasion 99.0% ± 0.0% | b=5 evasion 99.7% ± 0.2%
+GraphSAGE  clean F1 0.573 ± 0.011 | b=1 evasion 70.9% ± 0.8% | b=3 evasion 91.5% ± 0.6% | b=5 evasion 96.6% ± 1.3%
+GAT-Skip   clean F1 0.495 ± 0.009 | b=1 evasion 23.7% ± 2.5% | b=3 evasion 46.6% ± 1.5% | b=5 evasion 58.3% ± 2.8%

@@ -1,0 +1,8 @@
+edges with both endpoints labelled: 36624 of 234355
+  illicit -> illicit: 998 (2.7%)
+  illicit -> licit: 915 (2.5%)
+  licit -> illicit: 781 (2.1%)
+  licit -> licit: 33930 (92.6%)
+
+illicit nodes with at least one labelled neighbour: 2484 of 4545
+mean share of those neighbours that are illicit: 51.0% (base rate of illicit among labelled nodes: 9.8%)

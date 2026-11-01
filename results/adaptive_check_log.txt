@@ -1,0 +1,17 @@
+Loaded cached GCN-Skip from /Users/priyanshushekhar/graphguard/results/attack_models/GCN-Skip.pt
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 663 (61.2% of illicit test nodes)
+1) Hub diagnostic (greedy attacker, no pruning constraint)
+   b=1: 1 distinct partners for 663 targets; mean in-degree of those partners after attack 664
+   b=3: 3 distinct partners for 663 targets; mean in-degree of those partners after attack 665
+   b=5: 5 distinct partners for 663 targets; mean in-degree of those partners after attack 665
+
+2) Greedy vs diversified adaptive attacker (F1 / recall)
+   q=0.00 b=3 | greedy 0.599/0.610 | diversified M=200 0.082/0.061 | diversified M=2000 0.009/0.006
+   q=0.00 b=5 | greedy 0.600/0.610 | diversified M=200 0.080/0.059 | diversified M=2000 0.005/0.004
+   q=0.10 b=3 | greedy 0.428/0.389 | diversified M=200 0.228/0.184 | diversified M=2000 0.337/0.289
+   q=0.10 b=5 | greedy 0.394/0.350 | diversified M=200 0.175/0.137 | diversified M=2000 0.281/0.234
+   q=0.25 b=3 | greedy 0.582/0.583 | diversified M=200 0.489/0.459 | diversified M=2000 0.406/0.362
+   q=0.25 b=5 | greedy 0.579/0.579 | diversified M=200 0.510/0.486 | diversified M=2000 0.360/0.311
+   q=0.50 b=3 | greedy 0.592/0.588 | diversified M=200 0.534/0.509 | diversified M=2000 0.525/0.498
+   q=0.50 b=5 | greedy 0.597/0.595 | diversified M=200 0.546/0.524 | diversified M=2000 0.507/0.475

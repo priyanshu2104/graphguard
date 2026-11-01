@@ -1,0 +1,33 @@
+Loaded cached GCN-Skip from /Users/priyanshushekhar/graphguard/results/attack_models/GCN-Skip.pt
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 663 (61.2% of illicit test nodes)
+
+GCN-Skip: clean F1 0.601 recall 0.612
+  b=1 M=200  | evasion 85.3% ± 0.7% | F1 0.119 | recall 0.090
+  b=1 M=2000 | evasion 84.6% ± 0.7% | F1 0.124 | recall 0.094
+  b=3 M=200  | evasion 89.6% ± 0.4% | F1 0.086 | recall 0.064
+  b=3 M=2000 | evasion 98.4% ± 0.4% | F1 0.014 | recall 0.010
+  b=5 M=200  | evasion 89.9% ± 0.5% | F1 0.083 | recall 0.062
+  b=5 M=2000 | evasion 99.3% ± 0.1% | F1 0.006 | recall 0.004
+Loaded cached GraphSAGE from /Users/priyanshushekhar/graphguard/results/attack_models/GraphSAGE.pt
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 678 (62.6% of illicit test nodes)
+
+GraphSAGE: clean F1 0.580 recall 0.626
+  b=1 M=200  | evasion 57.0% ± 1.6% | F1 0.299 | recall 0.269
+  b=1 M=2000 | evasion 67.6% ± 1.7% | F1 0.234 | recall 0.203
+  b=3 M=200  | evasion 88.7% ± 1.7% | F1 0.088 | recall 0.071
+  b=3 M=2000 | evasion 90.9% ± 0.1% | F1 0.072 | recall 0.057
+  b=5 M=200  | evasion 95.5% ± 0.4% | F1 0.036 | recall 0.028
+  b=5 M=2000 | evasion 96.2% ± 0.2% | F1 0.030 | recall 0.024
+Loaded cached GAT-Skip from /Users/priyanshushekhar/graphguard/results/attack_models/GAT-Skip.pt
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 764 (70.5% of illicit test nodes)
+
+GAT-Skip: clean F1 0.505 recall 0.705
+  b=1 M=200  | evasion 25.2% ± 0.7% | F1 0.403 | recall 0.528
+  b=1 M=2000 | evasion 19.5% ± 0.6% | F1 0.427 | recall 0.568
+  b=3 M=200  | evasion 47.8% ± 1.2% | F1 0.300 | recall 0.368
+  b=3 M=2000 | evasion 33.0% ± 0.4% | F1 0.369 | recall 0.472
+  b=5 M=200  | evasion 58.7% ± 1.9% | F1 0.245 | recall 0.292
+  b=5 M=2000 | evasion 38.5% ± 1.1% | F1 0.344 | recall 0.434
