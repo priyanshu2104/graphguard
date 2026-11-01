@@ -106,7 +106,48 @@ for a single attack draw (seed 42). Each architecture was trained once (seed
 reported variability reflects the attacker's random choice of partners, not
 variation in training.
 
+**Threat model.** Elliptic contains no edges between time steps (none of its
+234,355 edges connects nodes from different time steps), so an attacker can
+only connect a target to wallets from the same time step. Our main attacks
+therefore draw partners from the target's own time step. We assume the
+attacker knows which wallets from that period are legitimate and, for the
+adaptive variants, has white-box access to the model's output probabilities
+and to the pruning threshold. Edges are added in both directions. Edges into
+the target require licit transactions to feed the target's outputs, which may
+be difficult to arrange in practice, so results measure the effect of an
+attacker with this capability, not real-world exposure.
+
+**Attackers.** *Random camouflage* connects each target to b partners sampled
+uniformly from the licit wallets of its time step. The *adaptive attacker*
+ranks those wallets by the model's illicit probability (lowest first), keeps
+those whose feature cosine similarity to the target passes the pruning
+threshold (none, for undefended models), and connects the target to b partners
+drawn at random from the top M candidates (M = 10, 50 or 200; we report the
+strongest variant for each setting). A greedy variant that always takes the
+top b is ineffective: every target then shares the same partners, which become
+hubs (in-degree about 665) and carry little weight under degree-normalised
+aggregation. The attacker is not tuned, so evasion rates are lower bounds.
+
+**Unconstrained variant.** As an upper bound we also report attackers that
+draw partners from the training period's licit wallets, so every added edge
+crosses time steps. Dropping edges whose endpoints lie in different time steps
+removes such an attack entirely at no cost (GCN-Skip F1 0.009 → 0.601,
+evasion 98.9% → 0%), so we do not treat it as a realistic threat.
+
 ### 4.6 Defense mechanism
+
+**Similarity pruning.** At inference, edges whose endpoints' cosine similarity
+(on standardised features) falls below a threshold are removed. The threshold
+is a quantile of the similarity distribution of the real edges, so a value of
+25% removes the 25% least similar real edges. No retraining is needed.
+
+**Adversarial training (attempted).** We trained GCN-Skip for 100 epochs on
+graphs perturbed at every epoch with random camouflage edges (budget 1, 3 or
+5), applied to the same fraction (50%) of illicit and licit training nodes so
+that the perturbation carries no label information. The partners were drawn
+from the training period's licit wallets, so these training edges crossed time
+steps.
+
 ### 4.7 Explainability
 
 ## 5. Experiments & Results
@@ -183,6 +224,37 @@ after.
 | Random Forest | 0.8159 | 0.8159 | 0.8159 | 0.8159 | 0.6934 | 0.6934 |
 | XGBoost | 0.7844 | 0.7844 | 0.7844 | 0.7844 | 0.7341 | 0.7341 |
 
+### 5.2.1 Time-consistent attacks
+
+**Table 6.** Evasion rate (%) under random camouflage with time-consistent
+partners (seed-42 models; mean over five sampling seeds).
+
+| Model | b=1 | b=3 | b=5 |
+|---|---|---|---|
+| GCN-Skip | 19.3 | 32.6 | 42.0 |
+| GraphSAGE | 15.0 | 18.3 | 20.1 |
+| GAT-Skip | 5.8 | 5.5 | 3.7 |
+
+**Table 7.** Evasion rate (%) under the time-consistent adaptive attacker
+(strongest of three variants per cell), mean ± sample std over three training
+seeds, one attack-sampling seed each.
+
+| Model | Clean F1 | b=1 | b=3 | b=5 |
+|---|---|---|---|---|
+| GCN-Skip | 0.554 ± 0.045 | 54.0 ± 5.8 | 62.4 ± 8.0 | 60.2 ± 7.9 |
+| GraphSAGE | 0.573 ± 0.014 | 71.2 ± 2.7 | 86.2 ± 3.3 | 89.1 ± 2.5 |
+| GAT-Skip | 0.495 ± 0.011 | 19.7 ± 4.0 | 26.8 ± 9.6 | 32.2 ± 11.2 |
+
+The adaptive attacker is far stronger than random camouflage (for example,
+GraphSAGE at b=5: 89% against 20%). The ordering GAT-Skip < GCN-Skip <
+GraphSAGE holds at every budget in all three training seeds, with disjoint
+ranges. Under the unconstrained attacker GCN-Skip was at least as fragile as
+GraphSAGE, so we do not claim an architecture ranking independent of the
+attacker. The frozen GAT-Skip model (seed 42) is the most resistant of its
+three seeds (19.4% evasion at b=5, against 37.6% and 39.7%). No model is
+robust: even the most resistant loses about a third of its detected targets at
+b=5.
+
 **The ranking inverts under attack.** GCN-Skip has the highest clean F1
 among the GNNs (0.6005) and the lowest under attack, while GAT-Skip is the
 reverse: at b=5 its F1 (0.4885) exceeds GCN-Skip's (0.2642) despite starting
@@ -240,45 +312,124 @@ and ρ = [rho_not] for nodes that did not (Mann–Whitney p = [p]).
 than those of nodes that remained detected; both groups diverge from the
 clean explanation by more than the explainer's own run-to-run baseline.
 
-### 5.4 Explainability examples
+## 5.4 Defence Evaluation
+
+**Table 8.** Similarity pruning of GCN-Skip against the time-consistent
+adaptive attacker. Worst-case F1 is the minimum over budgets 3 and 5 and three
+partner-selection variants. Mean ± sample std over three training seeds.
+
+| Real edges pruned | Clean F1 | Worst-case F1 |
+|---|---|---|
+| 0% | 0.554 ± 0.045 | 0.254 ± 0.066 |
+| 25% | 0.555 ± 0.043 | 0.397 ± 0.042 |
+| 50% | 0.548 ± 0.040 | 0.358 ± 0.049 |
+| No edges (reference) | 0.642 ± 0.023 | 0.642 ± 0.023 |
+
+Pruning 25% of edges left clean F1 unchanged and raised worst-case F1 in all
+three seeds (by 0.108 to 0.179), recovering about half of the F1 lost to the
+attack; pruning 50% was not better. Pruning therefore mitigates the attack but
+does not neutralise it. A model trained without edges scores higher than every
+defended result and is unaffected by edge attacks in our setting, because its
+neighbourhood features are precomputed and fixed (Section 6). Under the
+unconstrained attacker the best pruning level was different (worst-case F1
+0.003 ± 0.002 undefended, 0.334 ± 0.027 at 25%, 0.477 ± 0.028 at 50%), so the
+best level depends on the attacker. The attacker was not tuned and these are
+not true worst cases.
+
+**Adversarial training (negative result).** As implemented, adversarial
+training failed. Over three training seeds, clean F1 fell to 0.302 ± 0.020
+(undefended 0.601) with 3,953 ± 787 false positives (undefended 462), and
+clean AUC-PR fell to 0.356 (undefended, seed 42: 0.611). Evasion under random
+unconstrained camouflage was lower (4-13% at budgets 1-5, against 27-67%
+undefended) but only because the model flagged many licit nodes: its AUC-PR
+under attack remained below the undefended model's (0.169 against 0.226 at
+b=5). We report this as a negative result of this implementation (100 epochs,
+a new random graph at every step, final training loss about 0.20 against 0.087
+undefended, training edges that crossed time steps), not as evidence about
+adversarial training in general.
+
+## 5.5 Does the Graph Help?
+
+To check whether message passing contributes anything on this dataset, we
+trained GCN-Skip with and without edges, using either all 165 features or only
+the 93 local features (the remaining 72 are aggregated over each transaction's
+one-hop neighbours; Weber et al., 2019). Table 9 reports clean test
+performance over three training seeds.
+
+**Table 9.**
+
+| Features | Edges | F1 | AUC-PR |
+|---|---|---|---|
+| All 165 | with graph | 0.554 ± 0.045 | 0.611 (seed 42 only) |
+| All 165 | without | 0.642 ± 0.023 | 0.626 ± 0.033 |
+| Local 93 | with graph | 0.350 ± 0.018 | 0.400 ± 0.016 |
+| Local 93 | without | 0.442 ± 0.019 | 0.582 ± 0.052 |
+
+The model without edges scored higher than the same model with edges in both
+settings (the per-seed F1 ranges do not overlap). Removing the aggregated
+features lowered the no-graph model's F1 by 0.20, so those features carry
+useful information, but message passing over local features did not recover
+it. We therefore find no evidence that the graph helps this architecture on
+this dataset, in either feature setting. The hyperparameters were selected on
+graph-based models, so the comparison does not favour the no-graph variants.
+With the graph, the local-features model remained highly vulnerable (99.0 ±
+0.4% evasion at b=3 under the unconstrained adaptive attacker). We tested only
+GCN-Skip in this comparison.
+
+**Label structure.** Of the 36,624 edges whose endpoints are both labelled, 93%
+connect two licit nodes. Among illicit nodes with at least one labelled
+neighbour, 51% of those neighbours are illicit, against a base rate of 9.8%
+among labelled nodes, so illicit nodes cluster. We did not establish why
+message passing nevertheless fails to help.
+
+### 6. Discussion & Limitations
 
 ## 6. Discussion & Limitations
 
-## 6. Discussion & Limitations
+**Why do the architectures differ?** We do not have an explanation we can
+support. Under the time-consistent adaptive attacker, GAT-Skip is the most
+resistant (20-32% evasion at b = 1-5), followed by GCN-Skip (54-62%) and
+GraphSAGE (71-89%); the order of GCN-Skip and GraphSAGE reverses under the
+unconstrained attacker. We examined whether the share of aggregation weight
+kept on a node's own features accounts for the differences. With unconstrained
+camouflage edges, GCN's structural self-share falls from 55% on the clean
+graph to 2% at b=20, while GAT-Skip learns to weight its self-loops 2-5 times
+a uniform share and gives camouflage edges about 0.5-0.6 times the weight of
+real edges. That is consistent with GAT-Skip's relative resistance, but it does
+not explain why GraphSAGE, which has a separate transformation for a node's own
+features, is more fragile than GCN-Skip under the time-consistent attacker, so
+we do not offer it as the mechanism.
 
-**Why do the architectures differ?** We examined the layer-1 aggregation
-weights for the 764 GAT-Skip targets. In GCN, the weight on a node's own
-features is fixed by degree normalisation; the share of total aggregation
-weight on the node itself falls from 55.2% on the clean graph to 33.7%, 9.9%
-and 1.8% at b = 1, 5 and 20. GAT-Skip instead learns to up-weight self-loops
-(attention 2.2×, 3.5× and 5.1× a uniform share at b = 1, 5, 20) and assigns
-camouflage edges 0.31×, 0.52× and 0.78× a uniform share, against 0.65×,
-0.90× and 1.28× for original edges into the same nodes. GraphSAGE applies a
-separate transformation to the node's own features. The ordering of
-own-feature retention across the three architectures matches the ordering of
-vulnerability, which is consistent with a dilution explanation. We treat this
-as a hypothesis, not a finding: it compares three architectures that differ
-in other respects, it covers the first layer only, and it does not account for
-the decline of GAT-Skip's evasion rate at large budgets, which remains
-unexplained. At b=20, the 20 camouflage edges per target, each at 0.78× a
-uniform share, still account for most of the layer-1 attention mass the
-targets receive (derived from the ratios above), so attention suppression
-alone cannot be the explanation.
+**Immunity of feature-only models depends on frozen features.** Elliptic's 165
+features include 72 aggregated features that summarise each transaction's
+one-hop neighbourhood (Weber et al., 2019). These are precomputed and fixed in
+our experiments, so inserting edges changes the GNN's message passing but not
+the inputs of Random Forest, XGBoost or the no-graph model. In a deployment
+that recomputed neighbourhood features from the live graph, an attacker's edges
+would also change those features, and the immunity we report would not hold. We
+did not test this.
 
 **Limitations.**
-- Each architecture was trained once (seed 42); reported variability covers
-  the attacker's sampling only, not training variation.
-- The attack is non-adaptive: licit partners are chosen at random. A
-  feature-aware attacker may be considerably stronger (evaluated in the
-  defence experiments).
-- About 99% of targets have in-degree at most 2, so conclusions apply to
-  sparsely connected wallets.
-- Evasion is measured only over nodes the clean model detects. GAT-Skip
-  detects more illicit nodes but at a substantially higher false-positive
-  count (1,180 vs 462 for GCN-Skip), so its robustness comes with a precision
-  cost.
-- GNNExplainer is stochastic, and the explanation analysis uses a sample of
-  [N] nodes on one budget.
+- The attacker is not tuned (the best partner-selection variant differed
+  across models), so evasion rates are lower bounds. It also assumes white-box
+  access and knowledge of which same-period wallets are legitimate.
+- Most main experiments use one trained model per architecture (seed 42); the
+  adaptive-attack ranking, the pruning evaluation and the graph/no-graph
+  comparison were checked over three training seeds, which is only a crude
+  estimate of spread.
+- The frozen GCN-Skip model (seed 42) is the best of its three seeds on clean
+  F1 (0.601, against a mean of 0.554), and the frozen GAT-Skip model is the most
+  resistant of its three seeds.
+- The explanation analysis (Section 5.3) was measured under the unconstrained
+  attacker, and it changes the explainer's target class for evaded nodes
+  (addressed by a fixed-target control). We did not test whether
+  non-adversarial perturbations of the same size produce the same shift.
+- Pruning and the graph/no-graph comparison were tested on GCN-Skip only.
+- Evasion is measured only over nodes the clean model detects. GAT-Skip detects
+  more illicit nodes but at a higher false-positive count on clean data (1,180
+  against 462 for GCN-Skip).
+- Adversarial training was tested in one implementation, with cross-time
+  training edges.
 - All experiments use a single dataset.
 
 ## 7. Conclusion & Future Work
