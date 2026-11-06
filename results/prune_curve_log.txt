@@ -1,0 +1,45 @@
+Loaded cached GCN-Skip from /Users/priyanshushekhar/graphguard/results/attack_models/GCN-Skip.pt
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 663 (61.2% of illicit test nodes)
+seed 42 q=0.00: clean F1 0.601 (FP 462) | worst adaptive F1 0.292 (FP 462)
+seed 42 q=0.05: clean F1 0.597 (FP 465) | worst adaptive F1 0.293 (FP 464)
+seed 42 q=0.10: clean F1 0.596 (FP 464) | worst adaptive F1 0.286 (FP 461)
+seed 42 q=0.25: clean F1 0.597 (FP 454) | worst adaptive F1 0.440 (FP 457)
+seed 42 q=0.50: clean F1 0.588 (FP 432) | worst adaptive F1 0.412 (FP 498)
+seed 42 q=0.75: clean F1 0.573 (FP 442) | worst adaptive F1 0.453 (FP 572)
+Epoch  20 | Loss: 0.2208
+Epoch  40 | Loss: 0.1627
+Epoch  60 | Loss: 0.1248
+Epoch  80 | Loss: 0.1123
+Epoch 100 | Loss: 0.0977
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 638 (58.9% of illicit test nodes)
+seed 0 q=0.00: clean F1 0.553 (FP 586) | worst adaptive F1 0.285 (FP 591)
+seed 0 q=0.05: clean F1 0.549 (FP 588) | worst adaptive F1 0.278 (FP 593)
+seed 0 q=0.10: clean F1 0.549 (FP 589) | worst adaptive F1 0.291 (FP 594)
+seed 0 q=0.25: clean F1 0.558 (FP 547) | worst adaptive F1 0.393 (FP 575)
+seed 0 q=0.50: clean F1 0.547 (FP 525) | worst adaptive F1 0.317 (FP 565)
+seed 0 q=0.75: clean F1 0.547 (FP 565) | worst adaptive F1 0.429 (FP 653)
+Epoch  20 | Loss: 0.2112
+Epoch  40 | Loss: 0.1509
+Epoch  60 | Loss: 0.1252
+Epoch  80 | Loss: 0.1056
+Epoch 100 | Loss: 0.0985
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 704 (65.0% of illicit test nodes)
+seed 1 q=0.00: clean F1 0.510 (FP 976) | worst adaptive F1 0.178 (FP 978)
+seed 1 q=0.05: clean F1 0.505 (FP 980) | worst adaptive F1 0.169 (FP 982)
+seed 1 q=0.10: clean F1 0.505 (FP 977) | worst adaptive F1 0.194 (FP 979)
+seed 1 q=0.25: clean F1 0.511 (FP 942) | worst adaptive F1 0.357 (FP 973)
+seed 1 q=0.50: clean F1 0.509 (FP 906) | worst adaptive F1 0.344 (FP 978)
+seed 1 q=0.75: clean F1 0.505 (FP 908) | worst adaptive F1 0.428 (FP 1148)
+
+Mean ± sample std over training seeds
+q=0.00: clean F1 0.554 ± 0.045 | clean FP 675 | worst adaptive F1 0.251 ± 0.064
+q=0.05: clean F1 0.550 ± 0.046 | clean FP 678 | worst adaptive F1 0.247 ± 0.068
+q=0.10: clean F1 0.550 ± 0.046 | clean FP 677 | worst adaptive F1 0.257 ± 0.055
+q=0.25: clean F1 0.555 ± 0.043 | clean FP 648 | worst adaptive F1 0.397 ± 0.042
+q=0.50: clean F1 0.548 ± 0.040 | clean FP 621 | worst adaptive F1 0.357 ± 0.049
+q=0.75: clean F1 0.542 ± 0.034 | clean FP 638 | worst adaptive F1 0.437 ± 0.014
+
+Rule: highest mean worst-case F1 among levels whose clean F1 is within 0.01 of unpruned -> q = 0.25

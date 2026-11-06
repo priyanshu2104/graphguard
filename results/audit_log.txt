@@ -1,0 +1,69 @@
+
+Unconstrained (cross-time) adaptive attacker  (seed_check_log.txt)
+ok      GCN-Skip clean F1: log 0.555 ± 0.046 (n=3) | paper 0.554 ± 0.045
+ok      GCN-Skip evasion b=1: log 87.933 ± 2.977 (n=3) | paper 87.9 ± 3.0
+ok      GCN-Skip evasion b=3: log 99.000 ± 0.100 (n=3) | paper 99.0 ± 0.1
+ok      GCN-Skip evasion b=5: log 99.633 ± 0.208 (n=3) | paper 99.6 ± 0.2
+ok      GraphSAGE clean F1: log 0.573 ± 0.014 (n=3) | paper 0.573 ± 0.014
+ok      GraphSAGE evasion b=1: log 70.900 ± 1.054 (n=3) | paper 70.9 ± 1.1
+ok      GraphSAGE evasion b=3: log 91.533 ± 0.681 (n=3) | paper 91.5 ± 0.7
+ok      GraphSAGE evasion b=5: log 96.667 ± 1.557 (n=3) | paper 96.7 ± 1.6
+ok      GAT-Skip clean F1: log 0.495 ± 0.011 (n=3) | paper 0.495 ± 0.011
+ok      GAT-Skip evasion b=1: log 23.733 ± 3.092 (n=3) | paper 23.7 ± 3.1
+ok      GAT-Skip evasion b=3: log 46.600 ± 1.803 (n=3) | paper 46.6 ± 1.8
+ok      GAT-Skip evasion b=5: log 58.300 ± 3.470 (n=3) | paper 58.3 ± 3.5
+
+Time-consistent adaptive attacker  (seed_check_sametime_log.txt)
+ok      GCN-Skip clean F1: log 0.555 ± 0.046 (n=3) | paper 0.554 ± 0.045
+ok      GCN-Skip evasion b=1: log 54.033 ± 5.824 (n=3) | paper 54.0 ± 5.8
+ok      GCN-Skip evasion b=3: log 62.433 ± 8.036 (n=3) | paper 62.4 ± 8.0
+ok      GCN-Skip evasion b=5: log 60.167 ± 7.870 (n=3) | paper 60.2 ± 7.9
+ok      GraphSAGE clean F1: log 0.573 ± 0.014 (n=3) | paper 0.573 ± 0.014
+ok      GraphSAGE evasion b=1: log 71.167 ± 2.650 (n=3) | paper 71.2 ± 2.7
+ok      GraphSAGE evasion b=3: log 86.200 ± 3.291 (n=3) | paper 86.2 ± 3.3
+ok      GraphSAGE evasion b=5: log 89.133 ± 2.491 (n=3) | paper 89.1 ± 2.5
+ok      GAT-Skip clean F1: log 0.495 ± 0.011 (n=3) | paper 0.495 ± 0.011
+ok      GAT-Skip evasion b=1: log 19.700 ± 3.995 (n=3) | paper 19.7 ± 4.0
+ok      GAT-Skip evasion b=3: log 26.800 ± 9.579 (n=3) | paper 26.8 ± 9.6
+ok      GAT-Skip evasion b=5: log 32.233 ± 11.163 (n=3) | paper 32.2 ± 11.2
+
+Pruning, time-consistent attacker  (defense_seeds_sametime_log.txt)
+ok      no-graph F1: log 0.642 ± 0.023 (n=3) | paper 0.642 ± 0.023
+ok      no-graph AUC-PR: log 0.627 ± 0.033 (n=3) | paper 0.626 ± 0.033
+ok      pruned q=0.00 clean F1: log 0.555 ± 0.046 (n=3) | paper 0.554 ± 0.045
+ok      pruned q=0.00 worst-case F1: log 0.254 ± 0.066 (n=3) | paper 0.254 ± 0.066
+ok      pruned q=0.25 clean F1: log 0.555 ± 0.043 (n=3) | paper 0.555 ± 0.043
+ok      pruned q=0.25 worst-case F1: log 0.397 ± 0.042 (n=3) | paper 0.397 ± 0.042
+ok      pruned q=0.50 clean F1: log 0.548 ± 0.040 (n=3) | paper 0.548 ± 0.04
+ok      pruned q=0.50 worst-case F1: log 0.358 ± 0.049 (n=3) | paper 0.358 ± 0.049
+
+Pruning, unconstrained attacker  (defense_seeds_log.txt)
+ok      pruned q=0.00 clean F1: log 0.555 ± 0.046 (n=3) | paper 0.554 ± 0.045
+ok      pruned q=0.00 worst-case F1: log 0.003 ± 0.002 (n=3) | paper 0.003 ± 0.002
+ok      pruned q=0.25 clean F1: log 0.555 ± 0.043 (n=3) | paper 0.555 ± 0.043
+ok      pruned q=0.25 worst-case F1: log 0.334 ± 0.027 (n=3) | paper 0.334 ± 0.027
+ok      pruned q=0.50 clean F1: log 0.548 ± 0.040 (n=3) | paper 0.548 ± 0.04
+ok      pruned q=0.50 worst-case F1: log 0.477 ± 0.028 (n=3) | paper 0.477 ± 0.028
+
+Graph vs no graph, local features  (local_features_log.txt)
+ok      local graph F1: log 0.350 ± 0.018 (n=3) | paper 0.35 ± 0.018
+ok      local graph AUC-PR: log 0.400 ± 0.016 (n=3) | paper 0.4 ± 0.016
+ok      local no-graph F1: log 0.442 ± 0.019 (n=3) | paper 0.442 ± 0.019
+ok      local no-graph AUC-PR: log 0.582 ± 0.053 (n=3) | paper 0.582 ± 0.053
+
+Time-consistent random camouflage and the time filter  (sametime_eval_log.txt)
+ok      GCN-Skip random same-time evasion b=1: log 19.3 | paper 19.3
+ok      GCN-Skip random same-time evasion b=3: log 32.6 | paper 32.6
+ok      GCN-Skip random same-time evasion b=5: log 42.0 | paper 42.0
+ok      GraphSAGE random same-time evasion b=1: log 15.0 | paper 15.0
+ok      GraphSAGE random same-time evasion b=3: log 18.3 | paper 18.3
+ok      GraphSAGE random same-time evasion b=5: log 20.1 | paper 20.1
+ok      GAT-Skip random same-time evasion b=1: log 5.8 | paper 5.8
+ok      GAT-Skip random same-time evasion b=3: log 5.5 | paper 5.5
+ok      GAT-Skip random same-time evasion b=5: log 3.7 | paper 3.7
+ok      filter: F1 before: log 0.009 | paper 0.009
+ok      filter: evasion before: log 98.9 | paper 98.9
+ok      filter: F1 after: log 0.601 | paper 0.601
+ok      filter: evasion after: log 0.0 | paper 0.0
+
+55 ok, 0 DIFF/MISSING

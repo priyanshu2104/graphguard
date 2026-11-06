@@ -1,0 +1,83 @@
+Loaded cached GCN-Skip from /Users/priyanshushekhar/graphguard/results/attack_models/GCN-Skip.pt
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 663 (61.2% of illicit test nodes)
+Loaded cached GraphSAGE from /Users/priyanshushekhar/graphguard/results/attack_models/GraphSAGE.pt
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 678 (62.6% of illicit test nodes)
+Loaded cached GAT-Skip from /Users/priyanshushekhar/graphguard/results/attack_models/GAT-Skip.pt
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 764 (70.5% of illicit test nodes)
+Epoch  20 | Loss: 0.1639
+Epoch  40 | Loss: 0.1113
+Epoch  60 | Loss: 0.0889
+Epoch  80 | Loss: 0.0705
+Epoch 100 | Loss: 0.0653
+seed 42 done
+Epoch  20 | Loss: 0.2208
+Epoch  40 | Loss: 0.1627
+Epoch  60 | Loss: 0.1248
+Epoch  80 | Loss: 0.1123
+Epoch 100 | Loss: 0.0977
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 638 (58.9% of illicit test nodes)
+Epoch  20 | Loss: 0.2025
+Epoch  40 | Loss: 0.1311
+Epoch  60 | Loss: 0.1042
+Epoch  80 | Loss: 0.0863
+Epoch 100 | Loss: 0.0730
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 689 (63.6% of illicit test nodes)
+Epoch  20 | Loss: 0.2733
+Epoch  40 | Loss: 0.2030
+Epoch  60 | Loss: 0.1757
+Epoch  80 | Loss: 0.1702
+Epoch 100 | Loss: 0.1529
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 718 (66.3% of illicit test nodes)
+Epoch  20 | Loss: 0.1758
+Epoch  40 | Loss: 0.1192
+Epoch  60 | Loss: 0.0858
+Epoch  80 | Loss: 0.0740
+Epoch 100 | Loss: 0.0676
+seed 0 done
+Epoch  20 | Loss: 0.2112
+Epoch  40 | Loss: 0.1509
+Epoch  60 | Loss: 0.1252
+Epoch  80 | Loss: 0.1056
+Epoch 100 | Loss: 0.0985
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 704 (65.0% of illicit test nodes)
+Epoch  20 | Loss: 0.2085
+Epoch  40 | Loss: 0.1383
+Epoch  60 | Loss: 0.1091
+Epoch  80 | Loss: 0.0940
+Epoch 100 | Loss: 0.0786
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 664 (61.3% of illicit test nodes)
+Epoch  20 | Loss: 0.2436
+Epoch  40 | Loss: 0.1890
+Epoch  60 | Loss: 0.1685
+Epoch  80 | Loss: 0.1577
+Epoch 100 | Loss: 0.1493
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 789 (72.9% of illicit test nodes)
+Epoch  20 | Loss: 0.1663
+Epoch  40 | Loss: 0.1108
+Epoch  60 | Loss: 0.0828
+Epoch  80 | Loss: 0.0715
+Epoch 100 | Loss: 0.0658
+seed 1 done
+
+Mean and sample std over three training seeds
+                         clean_f1        clean_auc_pr         clean_fp          rand_b5_f1        rand_b5_fp          worst_f1        worst_recall         worst_fp          adaptive_b5_evasion       
+                             mean    std         mean    std      mean      std       mean    std       mean      std     mean    std         mean    std      mean      std                mean    std
+model                                                                                                                                                                                                  
+GAT-Skip                    0.495  0.011        0.545  0.030  1220.667  159.926      0.379  0.006   1940.444  179.092    0.363  0.055        0.476  0.083  1234.667  155.262               0.322  0.112
+GCN-Skip                    0.554  0.045        0.580  0.034   674.667  268.226      0.344  0.039    834.444  307.214    0.254  0.066        0.231  0.040   677.000  268.535               0.602  0.079
+GCN-Skip + pruning (25%)    0.555  0.043        0.570  0.034   647.667  259.107      0.399  0.041    792.556  294.049    0.397  0.042        0.396  0.019   668.333  270.365               0.369  0.026
+GCN-Skip, no graph          0.642  0.023        0.626  0.033   219.333   44.163      0.642  0.023    219.333   44.163    0.642  0.023        0.568  0.023   219.333   44.163               0.000  0.000
+GraphSAGE                   0.573  0.014        0.593  0.045   604.333   30.353      0.459  0.027    630.111   24.153    0.085  0.022        0.069  0.018   603.667   30.892               0.891  0.025
+
+Tree models (single run; edge attacks cannot change their inputs in this setting)
+  Random Forest: clean F1 0.816  AUC-PR 0.790
+  XGBoost: clean F1 0.784  AUC-PR 0.802

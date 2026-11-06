@@ -1,0 +1,14 @@
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 663 (61.2% of illicit test nodes)
+[25/150]
+[50/150]
+[75/150]
+[100/150]
+[125/150]
+[150/150]
+
+Explainer run-to-run floor, clean graph:    rho 0.84
+Explainer run-to-run floor, attacked graph: evaded 0.81 | not evaded 0.84
+Clean vs attacked, FIXED target (illicit): evaded (n=55) rho 0.63 | not evaded (n=95) rho 0.67
+Mann-Whitney (evaded rho < not-evaded rho): U=2002, p=0.0087, P(evaded lower) = 0.62
+Only nodes with pre-attack subgraph <= 4 nodes (evaded n=55, not evaded n=88): U=1918, p=0.019

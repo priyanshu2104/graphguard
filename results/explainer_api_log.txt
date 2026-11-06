@@ -1,0 +1,29 @@
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 663 (61.2% of illicit test nodes)
+
+node 136279: predicted class 1 (p_illicit 0.978), subgraph of 1 nodes, stability rho 0.94
+   feature 154 (aggregated): 0.630
+   feature 139 (aggregated): 0.629
+   feature  51 (local): 0.628
+   feature  88 (local): 0.623
+   feature  54 (local): 0.622
+
+node 136280: predicted class 1 (p_illicit 1.000), subgraph of 2 nodes, stability rho 0.82
+   feature  52 (local): 0.631
+   feature  89 (local): 0.626
+   feature 129 (aggregated): 0.620
+   feature 153 (aggregated): 0.610
+   feature 147 (aggregated): 0.610
+   edge 136279 -> 136280: 0.590
+
+node 136312: predicted class 1 (p_illicit 1.000), subgraph of 58 nodes, stability rho 0.86
+   feature   1 (local): 0.602
+   feature   5 (local): 0.600
+   feature 141 (aggregated): 0.594
+   feature 129 (aggregated): 0.590
+   feature 144 (aggregated): 0.587
+   edge 136833 -> 136312: 0.639
+   edge 136443 -> 136312: 0.634
+   edge 138125 -> 136312: 0.624
+   edge 137021 -> 136312: 0.434
+   edge 138784 -> 136312: 0.434

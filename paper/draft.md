@@ -150,6 +150,11 @@ steps.
 
 ### 4.7 Explainability
 
+On three correctly detected test nodes the run-to-run rank correlation between
+explainer runs was 0.82-0.94, but the five highest feature scores of a node
+differed by 0.02 or less, so the output should be read as a set of important
+features and not as a strict ranking.
+
 ## 5. Experiments & Results
 ### 5.1 Baseline vs GNN comparison
 
@@ -289,52 +294,57 @@ b=3 is 51.6%, 29.0% and 4.8% respectively, so the model differences are not
 explained by differences in the targets' in-degree. Bins with in-degree ≥ 3
 contain only 6–12 targets per model and are not interpreted.
 
-### 5.3 Defense evaluation
-
 ## 5.3 Explainability Under Attack
 
 We compared GNNExplainer feature-importance vectors for the frozen GCN-Skip
-model before and after a budget-3 camouflage attack on [N] randomly sampled
-correctly-detected illicit test nodes ([n_evaded] evaded, [n_not] did not).
-Explanations were computed on each node's 3-hop subgraph, which we verified
-reproduces the full-graph logits.
+model before and after a budget-3 random camouflage attack with time-consistent
+partners, on 150 randomly sampled correctly detected illicit test nodes
+(55 evaded, 95 did not). Explanations were computed on each node's 3-hop
+subgraph, which we verified reproduces the full-graph logits. The explainer is
+stochastic: explaining the same node twice on the clean graph gives only
+1.40/5 overlap in the top-5 features, so we report Spearman rank correlation
+across all 165 features instead. Its run-to-run baseline is ρ = 0.84 on the
+clean graph and ρ = 0.81 (evaded) and 0.84 (not evaded) on the attacked graph.
 
-The explainer is itself unstable: explaining the same node twice on the same
-graph gives only [floor_overlap]/5 overlap in the top-5 features, so top-k
-overlap is not a usable metric here. We therefore report Spearman rank
-correlation across all 165 features, where the run-to-run baseline is
-ρ = [floor_rho].
-
-Clean-versus-attacked correlation was ρ = [rho_evaded] for nodes that evaded
-and ρ = [rho_not] for nodes that did not (Mann–Whitney p = [p]).
-
-[If p ≥ 0.05] We find no evidence that evaded nodes' explanations change more
-than those of nodes that remained detected; both groups diverge from the
-clean explanation by more than the explainer's own run-to-run baseline.
+Because the predicted class of an evaded node changes, we explain the illicit
+class on both graphs. Clean-versus-attacked correlation was ρ = 0.63 for evaded
+nodes and ρ = 0.67 for nodes that stayed detected (Mann–Whitney p = 0.0087; for
+62% of evaded/not-evaded pairs the evaded node had the lower correlation, where
+50% would mean no difference). The difference also holds among nodes with small
+pre-attack neighbourhoods (p = 0.019; 55 evaded and 88 not evaded). For both
+groups the correlation is well below the explainer's own baseline, so the attack
+changes the explanations whether or not it changes the prediction, and evaded
+nodes change slightly more. Evaded nodes are the ones whose output moved most,
+so this does not show that the attack alters the model's reasoning specifically.
+Under the unconstrained attacker the corresponding values were 0.61 and 0.65
+(p = 0.0017). We did not test whether non-adversarial perturbations of the same
+size produce the same shift.
 
 ## 5.4 Defence Evaluation
 
-**Table 8.** Similarity pruning of GCN-Skip against the time-consistent
-adaptive attacker. Worst-case F1 is the minimum over budgets 3 and 5 and three
-partner-selection variants. Mean ± sample std over three training seeds.
+**Table 8b.** Pruning level against the time-consistent adaptive attacker,
+GCN-Skip, mean ± sample std over three training seeds. Worst-case F1 is the
+minimum over budgets 3 and 5 and five partner-selection variants
+(M = 10, 25, 50, 100, 200).
 
-| Real edges pruned | Clean F1 | Worst-case F1 |
-|---|---|---|
-| 0% | 0.554 ± 0.045 | 0.254 ± 0.066 |
-| 25% | 0.555 ± 0.043 | 0.397 ± 0.042 |
-| 50% | 0.548 ± 0.040 | 0.358 ± 0.049 |
-| No edges (reference) | 0.642 ± 0.023 | 0.642 ± 0.023 |
+| Real edges pruned | Clean F1 | Clean false positives | Worst-case F1 |
+|---|---|---|---|
+| 0% | 0.554 ± 0.045 | 675 | 0.251 ± 0.064 |
+| 5% | 0.550 ± 0.046 | 678 | 0.247 ± 0.068 |
+| 10% | 0.550 ± 0.046 | 677 | 0.257 ± 0.055 |
+| 25% | 0.555 ± 0.043 | 648 | 0.397 ± 0.042 |
+| 50% | 0.548 ± 0.040 | 621 | 0.357 ± 0.049 |
+| 75% | 0.542 ± 0.034 | 638 | 0.437 ± 0.014 |
 
-Pruning 25% of edges left clean F1 unchanged and raised worst-case F1 in all
-three seeds (by 0.108 to 0.179), recovering about half of the F1 lost to the
-attack; pruning 50% was not better. Pruning therefore mitigates the attack but
-does not neutralise it. A model trained without edges scores higher than every
-defended result and is unaffected by edge attacks in our setting, because its
-neighbourhood features are precomputed and fixed (Section 6). Under the
-unconstrained attacker the best pruning level was different (worst-case F1
-0.003 ± 0.002 undefended, 0.334 ± 0.027 at 25%, 0.477 ± 0.028 at 50%), so the
-best level depends on the attacker. The attacker was not tuned and these are
-not true worst cases.
+Pruning below 25% had no effect. At 25% and above, worst-case F1 rose to
+0.36-0.44 with clean F1 within 0.012 of the unpruned model. Differences among
+25%, 50% and 75% are within about one standard deviation across three seeds, so
+the best level is not sharply determined. We used 25%, the smallest effective
+level and the one selected by our rule (highest mean worst-case F1 among levels
+whose clean F1 is within 0.01 of unpruned; 75% scored higher but its clean F1
+was 0.012 below). The selection used test results because we had no validation
+split. At 25%, pruning recovers about half of the F1 lost to the attack
+(0.251 → 0.397, against 0.554 clean) but does not neutralise it.
 
 **Adversarial training (negative result).** As implemented, adversarial
 training failed. Over three training seeds, clean F1 fell to 0.302 ± 0.020
@@ -366,21 +376,76 @@ performance over three training seeds.
 | Local 93 | without | 0.442 ± 0.019 | 0.582 ± 0.052 |
 
 The model without edges scored higher than the same model with edges in both
-settings (the per-seed F1 ranges do not overlap). Removing the aggregated
-features lowered the no-graph model's F1 by 0.20, so those features carry
-useful information, but message passing over local features did not recover
-it. We therefore find no evidence that the graph helps this architecture on
-this dataset, in either feature setting. The hyperparameters were selected on
-graph-based models, so the comparison does not favour the no-graph variants.
-With the graph, the local-features model remained highly vulnerable (99.0 ±
-0.4% evasion at b=3 under the unconstrained adaptive attacker). We tested only
-GCN-Skip in this comparison.
+settings, and the per-seed F1 ranges do not overlap. With all features the
+AUC-PR difference is small (0.580 ± 0.034 with the graph, 0.626 ± 0.033
+without; about 1.4 standard deviations), while the false-positive count at the
+default threshold differs by a factor of three (675 ± 268 against 219 ± 44), so
+much of the F1 gap reflects the operating point and not ranking quality. With
+local features only, the AUC-PR gap is large (0.400 against 0.582).
+
+Removing the 72 columns that, by the dataset's published layout, are aggregated
+neighbourhood features lowered the no-graph model's F1 by 0.20 (0.642 to
+0.442), so GCN-Skip relies on them. A Random Forest does not: it scores F1
+0.799 on the first 93 columns and 0.816 on all 165 (0.584 on the last 72 alone),
+so the dependence is specific to the neural model. We could not verify the
+column layout independently. Message passing over the local features did not
+recover the information in the aggregated columns: the graph model on local
+features was worse than the model without edges. We therefore find no evidence
+that the graph helps this architecture on this dataset, in either feature
+setting. The hyperparameters were selected on graph-based models, so the
+comparison does not favour the no-graph variants. GCN-Skip without edges is
+itself well below Random Forest (0.642 against 0.816 on all features, 0.442
+against 0.799 on local features), so the comparison is within a weaker model
+family and may not carry over to stronger tabular learners. With the graph, the
+local-features model remained highly vulnerable (99.0 ± 0.4% evasion at b=3
+under the unconstrained adaptive attacker). We tested only GCN-Skip in this
+comparison.
 
 **Label structure.** Of the 36,624 edges whose endpoints are both labelled, 93%
 connect two licit nodes. Among illicit nodes with at least one labelled
 neighbour, 51% of those neighbours are illicit, against a base rate of 9.8%
 among labelled nodes, so illicit nodes cluster. We did not establish why
 message passing nevertheless fails to help.
+
+## 5.6 Final Comparison
+
+**Table 10.** Clean and attacked performance on the time-consistent threat
+model, mean ± sample std over three training seeds (tree models: single run).
+Worst-case F1 is the minimum over the adaptive attacker's settings
+(b = 3, 5; M = 10, 50, 200); the random-camouflage column is b=5, with
+false positives in brackets.
+
+| Model | Clean F1 | Clean AUC-PR | Clean FP | Random b=5 F1 (FP) | Worst-case adaptive F1 | Evasion b=5 (%) |
+|---|---|---|---|---|---|---|
+| Random Forest | 0.816 | 0.790 | 7 | = clean | = clean | — |
+| XGBoost | 0.784 | 0.802 | 149 | = clean | = clean | — |
+| GCN-Skip | 0.554 ± 0.045 | 0.580 ± 0.034 | 675 ± 268 | 0.344 ± 0.039 (834 ± 307) | 0.254 ± 0.066 | 60.2 ± 7.9 |
+| GraphSAGE | 0.573 ± 0.014 | 0.593 ± 0.045 | 604 ± 30 | 0.459 ± 0.027 (630 ± 24) | 0.085 ± 0.022 | 89.1 ± 2.5 |
+| GAT-Skip | 0.495 ± 0.011 | 0.545 ± 0.030 | 1,221 ± 160 | 0.379 ± 0.006 (1,940 ± 179) | 0.363 ± 0.055 | 32.2 ± 11.2 |
+| GCN-Skip + pruning (25%) | 0.555 ± 0.043 | 0.570 ± 0.034 | 648 ± 259 | 0.399 ± 0.041 (793 ± 294) | 0.397 ± 0.042 | 36.9 ± 2.6 |
+| GCN-Skip, no graph | 0.642 ± 0.023 | 0.626 ± 0.033 | 219 ± 44 | = clean | = clean | — |
+
+A model trained without edges has higher clean F1 (0.642 ± 0.023) and higher
+attacked F1 than every graph-based configuration we tested, with about a third
+of the false positives (219 ± 44 against 675 ± 268 for GCN-Skip). Random
+Forest and XGBoost are unaffected by edge attacks only because their
+neighbourhood features are precomputed and fixed (Section 6). The most
+resistant graph model, GAT-Skip, still loses 32.2 ± 11.2% of its detected
+targets at b=5 to the adaptive attacker. Pruned GCN-Skip has a worst-case F1
+(0.397 ± 0.042) comparable to GAT-Skip's (0.363 ± 0.055; the spreads overlap),
+with higher clean F1 (0.555 against 0.495) and about half the false positives
+(648 against 1,221), but lower recall under attack (0.396 against 0.476).
+
+Random camouflage with time-consistent partners also raised false positives
+for GAT-Skip (from 1,221 ± 160 to 1,940 ± 179 at b=5) and GCN-Skip (675 ± 268
+to 834 ± 307), but not materially for GraphSAGE (604 ± 30 to 630 ± 24). This
+explains why GAT-Skip's F1 falls from 0.495 to 0.379 under random camouflage
+although only 3.7% of the seed-42 model's targets evade (Table 6). The partners
+are test-period wallets, so connecting them to illicit targets can cause them
+to be flagged; we did not verify this node by node. We therefore report evasion
+and these collateral false positives as separate effects. At the worst-case
+adaptive setting, which uses the most licit-looking partners, false positives
+were within 3.2% of the clean count for every model.
 
 ### 6. Discussion & Limitations
 
@@ -425,12 +490,12 @@ did not test this.
   (addressed by a fixed-target control). We did not test whether
   non-adversarial perturbations of the same size produce the same shift.
 - Pruning and the graph/no-graph comparison were tested on GCN-Skip only.
-- Evasion is measured only over nodes the clean model detects. GAT-Skip detects
-  more illicit nodes but at a higher false-positive count on clean data (1,180
-  against 462 for GCN-Skip).
+- Evasion is measured only over nodes the clean model detects. GAT-Skip detects more illicit nodes but at a higher false-positive count on clean data (1,221 ± 160 against 675 ± 268 for GCN-Skip).
 - Adversarial training was tested in one implementation, with cross-time
   training edges.
 - All experiments use a single dataset.
+- Clean false-positive counts vary widely across training seeds (GCN-Skip: 462, 586, 976), and the frozen seed-42 model has the fewest, so operating-point comparisons based on one model are unreliable.
+- Neural models without edges are well below tree ensembles on this data (GCN-Skip without edges 0.642 against Random Forest 0.816), so conclusions about the graph apply to this model family.
 
 ## 7. Conclusion & Future Work
 
