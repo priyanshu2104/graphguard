@@ -228,3 +228,5 @@ wandb/
 *.pt
 *.pth.DS_Store
 *.egg-info/
+results/demo_log/
+results/demo_models/

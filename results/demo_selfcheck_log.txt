@@ -1,0 +1,9 @@
+Clean test-set scores from the demo's back end against the paper's seed-42 numbers
+ok   No graph                 F1 0.6296 (expected 0.6296) | FP 199 (expected 199)
+ok   Graph (GCN-Skip)         F1 0.6005 (expected 0.6005) | FP 462 (expected 462)
+ok   Graph + pruning (25%)    F1 0.5970 (expected 0.597) | FP 454 (expected 454)
+ok   transaction id round-trip
+ok   pruned graph keeps 75.0% of edges (expected about 75%)
+ok   all labelled test nodes are in time steps >= 35
+
+All checks passed.

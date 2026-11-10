@@ -497,6 +497,23 @@ did not test this.
 - Clean false-positive counts vary widely across training seeds (GCN-Skip: 462, 586, 976), and the frozen seed-42 model has the fewest, so operating-point comparisons based on one model are unreliable.
 - Neural models without edges are well below tree ensembles on this data (GCN-Skip without edges 0.642 against Random Forest 0.816), so conclusions about the graph apply to this model family.
 
-## 7. Conclusion & Future Work
+## 7. Demonstration System
+
+We provide a local Streamlit application that scores transactions from the
+Elliptic dataset under three configurations (a GCN-Skip model trained without
+edges, the undefended GCN-Skip, and GCN-Skip with similarity pruning), explains
+a score with GNNExplainer, simulates a time-consistent camouflage attack on a
+single transaction, and keeps a log of flag reports. The application browses
+the dataset: it cannot score transactions outside it, because the features are
+anonymised and precomputed, and it does not use live blockchain data.
+
+Explanations are averaged over three explainer runs and returned with their
+rank correlation, since the explainer is stochastic; the top feature scores of
+a transaction are typically within 0.02 of each other, so the application shows
+them as a set. Flag reports are appended to a log whose Merkle root (SHA-256,
+RFC 6962 construction) commits to every record and its order; an edit, removal
+or reordering of an earlier record changes the root. This makes tampering
+evident relative to a root saved elsewhere. It is not tamper-proof, and we did
+not implement anchoring of the root on a public ledger.
 
 ## References
