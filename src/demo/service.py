@@ -105,29 +105,38 @@ class DemoService:
         return sorted(int(i) for i in idx)
 
     # ---- attack simulation --------------------------------------------------------------------
-    def _attack_graph(self, kind, target, budget, seed, thr):
+    def _attack_graph(self, kind, target, budget, seed, thr, pool_size=50):
         if kind == "random":
             return apply_random_sametime(self.data, target, budget=budget, seed=seed)
         return apply_adaptive_attack(self.data, self.graph_model, target, self.licit_all, thr=thr,
-                                     budget=budget, pool_size=50, seed=seed, same_time=True)
+                                     budget=budget, pool_size=pool_size, seed=seed, same_time=True)
+
+    def _strongest(self, kind, target, budget, seed, attack_thr, defend_thr):
+        """The strongest attack (lowest score for the target) over the pool sizes used in the paper."""
+        best = None
+        for m in ((50,) if kind == "random" else (50, 200)):
+            att = self._attack_graph(kind, target, budget, seed, attack_thr, pool_size=m)
+            scored = att if defend_thr is None else prune(att, defend_thr)[0]
+            p = float(self.probs(self.graph_model, scored)[int(target[0])])
+            if best is None or p < best[0]:
+                best = (p, att)
+        return best
 
     def simulate_attack(self, idx, kind="adaptive", budget=3, seed=0):
         """Attacks ONE transaction with time-consistent partners. The no-graph model cannot be
-        affected (its input has no edges); the pruned model faces an attacker that knows the threshold."""
+        affected (its input has no edges); the pruned model faces an attacker that knows the threshold.
+        For the adaptive attacker the stronger of two pool sizes is used, as in the paper."""
         target = torch.tensor([int(idx)])
         e0 = self.data.edge_index.shape[1]
         p0 = float(self.clean_probs["no_graph"][idx])
         out = {"no_graph": {"before": p0, "after": p0, "partners": []}}
 
-        att = self._attack_graph(kind, target, budget, seed, thr=-2.0)
-        out["graph"] = {"before": float(self.clean_probs["graph"][idx]),
-                        "after": float(self.probs(self.graph_model, att)[idx]),
+        p_graph, att = self._strongest(kind, target, budget, seed, -2.0, None)
+        out["graph"] = {"before": float(self.clean_probs["graph"][idx]), "after": p_graph,
                         "partners": [self.txid(p) for p in att.edge_index[0, e0::2].tolist()]}
 
-        att_p = att if kind == "random" else self._attack_graph(kind, target, budget, seed, thr=self.prune_thr)
-        pruned_att, _ = prune(att_p, self.prune_thr)
-        out["pruned"] = {"before": float(self.clean_probs["pruned"][idx]),
-                         "after": float(self.probs(self.graph_model, pruned_att)[idx]),
+        p_pruned, att_p = self._strongest(kind, target, budget, seed, self.prune_thr, self.prune_thr)
+        out["pruned"] = {"before": float(self.clean_probs["pruned"][idx]), "after": p_pruned,
                          "partners": [self.txid(p) for p in att_p.edge_index[0, e0::2].tolist()]}
         return out
 

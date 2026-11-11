@@ -27,11 +27,13 @@ def find_examples(svc, n=40):
     for idx, info, r in rows:
         print(f"{info['txid']:<11} {info['time_step']:>4} {info['in_degree']:>6} | "
               f"{show(r, 'no_graph'):<10} | {show(r, 'graph'):<10} | {show(r, 'pruned')}")
-    good = [i for i, info, r in rows if r["graph"]["after"] < 0.5 <= r["pruned"]["after"]]
-    stay = [i for i, info, r in rows if r["graph"]["after"] >= 0.5]
-    print(f"\nGood for the walkthrough (graph model fooled, pruned model still flags): "
-          f"{[svc.txid(i) for i in good[:5]]}")
-    print(f"Attack does nothing (graph model still flags): {[svc.txid(i) for i in stay[:5]]}")
+    helps = [i for i, info, r in rows if r["graph"]["after"] < 0.5 <= r["pruned"]["after"]]
+    hurts = [i for i, info, r in rows
+             if r["graph"]["after"] >= 0.5 > r["pruned"]["after"] and r["pruned"]["before"] >= 0.5]
+    print(f"\nPruning helps (graph model fooled, pruned model still flags): "
+          f"{[(svc.txid(i), svc.info(i)['time_step']) for i in helps[:6]]}")
+    print(f"Pruning hurts (graph model still flags, pruned model fooled): "
+          f"{[(svc.txid(i), svc.info(i)['time_step']) for i in hurts[:6]]}")
 
 
 def main():

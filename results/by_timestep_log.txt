@@ -1,0 +1,23 @@
+Illicit nodes in test set: 1083
+Correctly flagged by clean model: 663 (61.2% of illicit test nodes)
+condition A done
+condition B done
+condition C done
+condition D done
+
+Evasion (%) of detected illicit test transactions, b=3, strongest of M = 50 / 200
+step |   n |     A     B     C     D
+  35 | 159 |  48.4  42.8  42.1  17.6
+  36 |  27 | 100.0  96.3   0.0   0.0
+  37 |  22 | 100.0  90.9   9.1   4.5
+  38 |  91 | 100.0  95.6   6.6  13.2
+  39 |  66 |  54.5  51.5  13.6   7.6
+  40 |  58 |  74.1  56.9  13.8   5.2
+  41 |  79 |  41.8  46.8  57.0  36.7
+  42 | 158 |  43.7  58.2  61.4  38.6
+  47 |   1 | 100.0 100.0 100.0 100.0
+  48 |   1 | 100.0 100.0 100.0 100.0
+  49 |   1 | 100.0 100.0 100.0 100.0
+ all | 663 |  53.4  52.0  35.7  21.3
+
+A undefended/unconstrained | B undefended/constrained | C pruned/constrained | D pruned/unconstrained
