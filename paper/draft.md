@@ -358,6 +358,43 @@ a new random graph at every step, final training loss about 0.20 against 0.087
 undefended, training edges that crossed time steps), not as evidence about
 adversarial training in general.
 
+**Table 11.** Evasion rate (%) by time step of the target, frozen GCN-Skip
+(seed 42), adaptive attacker with b=3. A: undefended model, unconstrained
+attacker. B: undefended model, similarity-constrained attacker. C: pruned model
+(25%), constrained attacker. D: pruned model, unconstrained attacker. Each row
+uses the stronger of M = 50 and M = 200 for that step.
+
+| Time step | Targets | A | B | C | D |
+|---|---|---|---|---|---|
+| 35 | 159 | 48.4 | 42.8 | 42.1 | 17.6 |
+| 36 | 27 | 100.0 | 96.3 | 0.0 | 0.0 |
+| 37 | 22 | 100.0 | 90.9 | 9.1 | 4.5 |
+| 38 | 91 | 100.0 | 95.6 | 6.6 | 13.2 |
+| 39 | 66 | 54.5 | 51.5 | 13.6 | 7.6 |
+| 40 | 58 | 74.1 | 56.9 | 13.8 | 5.2 |
+| 41 | 79 | 41.8 | 46.8 | 57.0 | 36.7 |
+| 42 | 158 | 43.7 | 58.2 | 61.4 | 38.6 |
+| 47-49 | 3 | 100.0 | 100.0 | 100.0 | 100.0 |
+| All targets | 663 | 53.4 | 52.0 | 35.7 | 21.3 |
+
+The all-targets row uses the single M that is strongest across all targets, so
+it is lower than the target-weighted mean of the rows for A and B (60.5% and
+60.3%).
+
+**Dependence on time step.** Evasion varied strongly with the target's time
+step (Table 11). The undefended model was evaded in all targets at steps 36-38
+(140 transactions) under the unconstrained attacker, but in 42-74% of targets
+at the other steps with more than three targets. Pruning cut evasion sharply at
+steps 36-40 (264 targets, pooled: 82.9% to 9.5%, comparing A with C) but raised
+it at steps 41-42 (237 targets: 43.1% to 59.9%); at step 35 the difference was
+small (48.4% to 42.1%). The average improvement from pruning (53.4% to 35.7%
+over all targets) is therefore driven by steps 36-40. Against the undefended
+model the two attacker families were about equally strong overall (A 53.4%,
+B 52.0%), but the constrained one was stronger at steps 41-42 and the
+unconstrained one at steps 35-40. There are no targets in steps 43-46. These
+results are for one model and one budget, and we do not have an explanation for
+the dependence on time step.
+
 ## 5.5 Does the Graph Help?
 
 To check whether message passing contributes anything on this dataset, we
@@ -496,6 +533,13 @@ did not test this.
 - All experiments use a single dataset.
 - Clean false-positive counts vary widely across training seeds (GCN-Skip: 462, 586, 976), and the frozen seed-42 model has the fewest, so operating-point comparisons based on one model are unreliable.
 - Neural models without edges are well below tree ensembles on this data (GCN-Skip without edges 0.642 against Random Forest 0.816), so conclusions about the graph apply to this model family.
+- Attack success and the effect of pruning depend strongly on the time step
+  (Table 11); pruning increased evasion at steps 41-42. We examined one model
+  and one budget (b=3) and cannot explain the dependence.
+- The undefended and pruned models were attacked by different attacker families
+  (unconstrained and similarity-constrained). At b=3 the families were about
+  equally strong against the undefended model overall, but we did not compare
+  them at other budgets.
 
 ## 7. Demonstration System
 
