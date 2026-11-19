@@ -1,11 +1,109 @@
 # GraphGuard: Explainable & Adversarially-Robust Fraud Detection in Cryptocurrency Networks using GNNs
 
 ## Abstract
-(write last)
+Graph neural networks (GNNs) are widely proposed for detecting illicit Bitcoin
+transactions. We evaluate them on the Elliptic dataset with a temporal split
+and ask three questions: do they beat simpler models, how easily can an
+attacker who adds edges evade them, and can a cheap defence help? Random Forest
+(F1 0.816) and XGBoost (0.784) outperform every GNN we trained (GCN-Skip 0.554,
+GraphSAGE 0.573, GAT-Skip 0.495, mean over three seeds), and a GCN trained
+without edges scores higher than the same GCN with edges (0.642 against 0.554).
+We study a camouflage attack that connects illicit transactions to licit ones.
+A first, unconstrained attacker evaded about 99% of GCN-Skip's detections, but
+its edges crossed time steps, which the dataset never contains, and a one-line
+time-consistency check removes it. Against a time-consistent white-box attacker
+adding one to five edges per transaction, evasion is 20-32% for GAT-Skip, 54-62%
+for GCN-Skip and 71-89% for GraphSAGE, and the order of GCN-Skip and GraphSAGE
+depends on the attacker. Removing the least similar edges at inference recovers
+about half of the F1 that GCN-Skip loses, without retraining, but its effect
+varies by time step, and our adversarial-training attempt failed. Models
+without edges are unaffected by edge attacks in our setting because their
+neighbourhood features are precomputed. We also provide a demonstration that
+explains scores with GNNExplainer and keeps a Merkle-tree log of flag reports.
+Our results concern one dataset, an untuned attacker and three training seeds.
 
 ## 1. Introduction
 
+Bitcoin transactions are public but pseudonymous, which makes the network
+attractive for illicit use and makes its transaction graph a natural object for
+financial forensics. The Elliptic dataset [1] labels a subset of Bitcoin
+transactions as licit or illicit and provides the graph of coin flows between
+them, and graph neural networks (GNNs) [3, 4, 5] are a natural candidate model.
+Weber et al. [1] reported, however, that a Random Forest on the provided
+features was competitive with a graph convolutional network [check against
+Table 1 of [1] before submission]. Whether the graph helps, and what it costs,
+is the starting point of this work.
+
+The cost matters because fraudsters adapt. A model that reads a transaction's
+neighbourhood can be influenced by changing that neighbourhood, and adversarial
+attacks on graph models are well documented for other domains [7, 8, 9]. For a
+fraud detector the question is concrete: can an illicit transaction avoid
+detection by acquiring licit neighbours, and what can a defender do?
+
+We evaluate GNNs on Elliptic with a temporal split, three training seeds and
+illicit-class metrics, and make five contributions:
+
+1. **A temporal benchmark.** Tree ensembles outperform every GNN we trained, and
+   a GCN without edges outperforms the same GCN with them, with all features and
+   with local features only (Sections 5.1-5.2).
+2. **An attack-realism result.** Our first attacker evaded about 99% of
+   GCN-Skip's detections, but its edges connected transactions from different
+   time steps, which never occurs in the data, and a time-consistency check
+   removes them at no cost. Against a time-consistent white-box attacker, evasion
+   is 20-32% (GAT-Skip), 54-62% (GCN-Skip) and 71-89% (GraphSAGE); the order of
+   GCN-Skip and GraphSAGE depends on the attacker, and attack success varies
+   strongly with the target's time step (Section 5.3).
+3. **A partial defence and a negative result.** Pruning the least similar edges
+   at inference recovers about half of the lost F1 for GCN-Skip without
+   retraining, but increases evasion at some time steps; our adversarial-training
+   implementation failed (Section 5.4).
+4. **A consolidated comparison.** Clean and attacked performance, with false
+   positives, for every configuration (Section 5.5). A model without edges is
+   best on both counts in our setting, because its neighbourhood features are
+   precomputed.
+5. **A demonstration.** A Streamlit application that scores transactions,
+   explains them, simulates the attack and keeps a tamper-evident log of flag
+   reports (Section 6).
+
+We do not claim that GNNs are unsuitable for fraud detection in general. Our
+results concern one dataset, one family of attacks that we did not tune, one
+defence, and three training seeds; Section 7 lists the limitations.
+
 ## 2. Related Work
+
+**Illicit-transaction detection on Bitcoin.** Weber et al. [1] released the
+Elliptic dataset, in which nodes are Bitcoin transactions and edges are the flow
+of coins between them, and compared logistic regression, Random Forest, an MLP
+and a GCN. Elmougy and Liu [2] extended it to Elliptic++, which adds an
+address-level graph and further features; we use only the original
+transaction graph.
+
+**GNN architectures.** We use the graph convolutional network of Kipf and
+Welling [3], GraphSAGE [4] and graph attention networks [5]. Tree ensembles [12,
+13] are our non-graph baselines. Grinsztajn et al. [6] find that tree-based
+models remain state-of-the-art on medium-sized tabular data and that neural
+networks struggle with uninformative features; this is consistent with, but does
+not demonstrate, the gap we observe on Elliptic's tabular features.
+
+**Adversarial attacks on graph models.** Zügner et al. [7] introduced targeted
+attacks on GCNs that perturb a node's features and graph structure under
+unnoticeability constraints. Dai et al. [8] attack graph classifiers and node
+classifiers by modifying structure under different levels of attacker knowledge.
+Wu et al. [9] observe that adding edges between nodes with different features
+plays the key role in the attacks they study and propose defending by removing
+such edges. Our similarity pruning applies this idea to Elliptic and examines
+it against a defence-aware attacker and across time steps. Unlike these works,
+our attack setting is constrained by the data's time structure: a transaction
+can only be connected to transactions from its own time step.
+
+**Explanations.** GNNExplainer [10] learns edge and feature masks that explain a
+GNN's prediction. We find it stochastic on this task, so we average masks over
+runs and report their agreement.
+
+**Tamper-evident logs.** Merkle trees with an inclusion-proof construction are
+used for Certificate Transparency [11]. Our report log uses the same
+construction; it detects edits relative to a saved root and does not prevent
+them.
 ### 2.1 Fraud detection on blockchain data
 ### 2.2 Graph Neural Networks
 ### 2.3 Adversarial robustness of GNNs
@@ -18,6 +116,42 @@
 - Temporal split: train on time steps 1-34, test on 35-49 (following Weber et al.)
 - Train set: 29,894 nodes, 3,462 illicit (11.58%)
 - Test set: 16,670 nodes, 1,083 illicit (6.50%)
+
+## 3. Dataset and Experimental Setup
+
+**Data.** The Elliptic dataset [1] contains 203,769 transactions (nodes) and
+234,355 directed edges over 49 time steps. Of the transactions, 4,545 are
+labelled illicit, 42,019 licit and 157,205 unlabelled (about 2%, 21% and 77%).
+We verified that none of the 234,355 edges connects transactions from different
+time steps. Each transaction has 166 columns including its time step; we use the
+other 165 as features, standardised with training-set statistics. By the
+dataset's published description the first 93 of these describe the transaction
+itself and the last 72 aggregate its one-hop neighbourhood; we assume this
+layout and could not verify it independently (a Random Forest scores F1 0.799 on
+the first 93 columns and 0.816 on all 165).
+
+**Split and metrics.** Labelled transactions from time steps 1-34 form the
+training set (29,894 transactions, 3,462 illicit, 11.58%) and those from steps
+35-49 the test set (16,670 transactions, 1,083 illicit, 6.50%). We report
+precision, recall, F1 and AUC-PR on the illicit class, with predictions at the
+default threshold, and never accuracy.
+
+**Models.** Random Forest and XGBoost: [fill in hyperparameters from
+src/models/baselines.py]. GCN, GraphSAGE and GAT are two-layer networks; the
+"Skip" variants concatenate the raw input features with the learned
+representation before the classifier. Hidden size 64 (32 for GAT-Skip, from our
+sweep), dropout 0.3, Adam with learning rate 0.01 [and weight decay: verify in
+src/models/train_utils.py], 100 epochs, class-weighted cross-entropy. The
+skip connection raised GCN's F1 from 0.439 (standardised features, no skip) to
+0.601 (Table 2). A "no-graph" model is the same GCN-Skip trained and evaluated
+with an empty edge set.
+
+**Seeds and reporting.** All GNN results use three training seeds (42, 0, 1).
+We report mean ± sample standard deviation. The frozen model used in the
+single-model experiments is GCN-Skip with seed 42, which has the highest clean
+F1 of its three seeds (0.601 against a mean of 0.554). All code, logs and the
+scripts that regenerate every table are in the project repository
+(github.com/priyanshu2104/graphguard).
 
 ## 4. Methodology
 ### 4.1 Graph construction & temporal split
@@ -358,43 +492,6 @@ a new random graph at every step, final training loss about 0.20 against 0.087
 undefended, training edges that crossed time steps), not as evidence about
 adversarial training in general.
 
-**Table 11.** Evasion rate (%) by time step of the target, frozen GCN-Skip
-(seed 42), adaptive attacker with b=3. A: undefended model, unconstrained
-attacker. B: undefended model, similarity-constrained attacker. C: pruned model
-(25%), constrained attacker. D: pruned model, unconstrained attacker. Each row
-uses the stronger of M = 50 and M = 200 for that step.
-
-| Time step | Targets | A | B | C | D |
-|---|---|---|---|---|---|
-| 35 | 159 | 48.4 | 42.8 | 42.1 | 17.6 |
-| 36 | 27 | 100.0 | 96.3 | 0.0 | 0.0 |
-| 37 | 22 | 100.0 | 90.9 | 9.1 | 4.5 |
-| 38 | 91 | 100.0 | 95.6 | 6.6 | 13.2 |
-| 39 | 66 | 54.5 | 51.5 | 13.6 | 7.6 |
-| 40 | 58 | 74.1 | 56.9 | 13.8 | 5.2 |
-| 41 | 79 | 41.8 | 46.8 | 57.0 | 36.7 |
-| 42 | 158 | 43.7 | 58.2 | 61.4 | 38.6 |
-| 47-49 | 3 | 100.0 | 100.0 | 100.0 | 100.0 |
-| All targets | 663 | 53.4 | 52.0 | 35.7 | 21.3 |
-
-The all-targets row uses the single M that is strongest across all targets, so
-it is lower than the target-weighted mean of the rows for A and B (60.5% and
-60.3%).
-
-**Dependence on time step.** Evasion varied strongly with the target's time
-step (Table 11). The undefended model was evaded in all targets at steps 36-38
-(140 transactions) under the unconstrained attacker, but in 42-74% of targets
-at the other steps with more than three targets. Pruning cut evasion sharply at
-steps 36-40 (264 targets, pooled: 82.9% to 9.5%, comparing A with C) but raised
-it at steps 41-42 (237 targets: 43.1% to 59.9%); at step 35 the difference was
-small (48.4% to 42.1%). The average improvement from pruning (53.4% to 35.7%
-over all targets) is therefore driven by steps 36-40. Against the undefended
-model the two attacker families were about equally strong overall (A 53.4%,
-B 52.0%), but the constrained one was stronger at steps 41-42 and the
-unconstrained one at steps 35-40. There are no targets in steps 43-46. These
-results are for one model and one budget, and we do not have an explanation for
-the dependence on time step.
-
 ## 5.5 Does the Graph Help?
 
 To check whether message passing contributes anything on this dataset, we
@@ -484,6 +581,44 @@ and these collateral false positives as separate effects. At the worst-case
 adaptive setting, which uses the most licit-looking partners, false positives
 were within 3.2% of the clean count for every model.
 
+**Table 11.** Evasion rate (%) by time step of the target, frozen GCN-Skip
+(seed 42), adaptive attacker with b=3. A: undefended model, unconstrained
+attacker. B: undefended model, similarity-constrained attacker. C: pruned model
+(25%), constrained attacker. D: pruned model, unconstrained attacker. Each row
+uses the stronger of M = 50 and M = 200 for that step.
+
+| Time step | Targets | A | B | C | D |
+|---|---|---|---|---|---|
+| 35 | 159 | 48.4 | 42.8 | 42.1 | 17.6 |
+| 36 | 27 | 100.0 | 96.3 | 0.0 | 0.0 |
+| 37 | 22 | 100.0 | 90.9 | 9.1 | 4.5 |
+| 38 | 91 | 100.0 | 95.6 | 6.6 | 13.2 |
+| 39 | 66 | 54.5 | 51.5 | 13.6 | 7.6 |
+| 40 | 58 | 74.1 | 56.9 | 13.8 | 5.2 |
+| 41 | 79 | 41.8 | 46.8 | 57.0 | 36.7 |
+| 42 | 158 | 43.7 | 58.2 | 61.4 | 38.6 |
+| 47-49 | 3 | 100.0 | 100.0 | 100.0 | 100.0 |
+| All targets | 663 | 53.4 | 52.0 | 35.7 | 21.3 |
+
+The all-targets row uses the single M that is strongest across all targets, so
+it is lower than the target-weighted mean of the rows for A and B (60.5% and
+60.3%).
+
+**Dependence on time step.** Evasion varied strongly with the target's time
+step (Table 11). The undefended model was evaded in all targets at steps 36-38
+(140 transactions) under the unconstrained attacker, but in 42-74% of targets
+at the other steps with more than three targets. Pruning cut evasion sharply at
+steps 36-40 (264 targets, pooled: 82.9% to 9.5%, comparing A with C) but raised
+it at steps 41-42 (237 targets: 43.1% to 59.9%); at step 35 the difference was
+small (48.4% to 42.1%). The average improvement from pruning (53.4% to 35.7%
+over all targets) is therefore driven by steps 36-40. Against the undefended
+model the two attacker families were about equally strong overall (A 53.4%,
+B 52.0%), but the constrained one was stronger at steps 41-42 and the
+unconstrained one at steps 35-40. There are no targets in steps 43-46. These
+results are for one model and one budget, and we do not have an explanation for
+the dependence on time step.
+
+
 ### 6. Discussion & Limitations
 
 ## 6. Discussion & Limitations
@@ -560,4 +695,46 @@ or reordering of an earlier record changes the root. This makes tampering
 evident relative to a root saved elsewhere. It is not tamper-proof, and we did
 not implement anchoring of the root on a public ledger.
 
+## 8. Conclusion
+
+On the Elliptic dataset, tree ensembles outperform every GNN we trained, and a
+GCN trained without edges outperforms the same GCN with them. A first attacker
+that evaded almost all of GCN-Skip's detections was infeasible: its edges crossed
+time steps, and a time-consistency check removes it. Against a time-consistent
+white-box attacker, GAT-Skip is the most resistant of the three GNNs and
+GraphSAGE the least, though none is robust and the order of GCN-Skip and
+GraphSAGE depends on the attacker. Similarity pruning recovers about half of the
+F1 that GCN-Skip loses, without retraining, but raises evasion at some time
+steps, and adversarial training failed in our implementation. A model without
+edges was best on clean data and under attack in our setting, an advantage that
+depends on its neighbourhood features being precomputed. Future work includes
+attackers optimised by gradient or search, recomputing neighbourhood features
+from the attacked graph, pruning for other architectures, validation-based
+selection of the pruning level, and other datasets.
+
 ## References
+[1] M. Weber, G. Domeniconi, J. Chen, D. K. I. Weidele, C. Bellei, T. Robinson, C. E. Leiserson. Anti-Money Laundering in Bitcoin: Experimenting with Graph Convolutional Networks for Financial Forensics. KDD '19 Workshop on Anomaly Detection in Finance, 2019. arXiv:1908.02591.
+
+[2] Y. Elmougy, L. Liu. Demystifying Fraudulent Transactions and Illicit Nodes in the Bitcoin Network for Financial Forensics. KDD '23, 2023. doi:10.1145/3580305.3599803.
+
+[3] T. N. Kipf, M. Welling. Semi-Supervised Classification with Graph Convolutional Networks. ICLR 2017.
+
+[4] W. L. Hamilton, R. Ying, J. Leskovec. Inductive Representation Learning on Large Graphs. NeurIPS 2017.
+
+[5] P. Veličković, G. Cucurull, A. Casanova, A. Romero, P. Liò, Y. Bengio. Graph Attention Networks. ICLR 2018.
+
+[6] L. Grinsztajn, E. Oyallon, G. Varoquaux. Why do tree-based models still outperform deep learning on typical tabular data? NeurIPS 2022 Datasets and Benchmarks. arXiv:2207.08815.
+
+[7] D. Zügner, A. Akbarnejad, S. Günnemann. Adversarial Attacks on Neural Networks for Graph Data. KDD 2018, pp. 2847-2856. doi:10.1145/3219819.3220078.
+
+[8] H. Dai, H. Li, T. Tian, X. Huang, L. Wang, J. Zhu, L. Song. Adversarial Attack on Graph Structured Data. ICML 2018, PMLR 80:1115-1124.
+
+[9] H. Wu, C. Wang, Y. Tyshetskiy, A. Docherty, K. Lu, L. Zhu. Adversarial Examples for Graph Data: Deep Insights into Attack and Defense. IJCAI 2019, pp. 4816-4823. doi:10.24963/ijcai.2019/669.
+
+[10] 	R. Ying, D. Bourgeois, J. You, M. Zitnik, J. Leskovec. GNNExplainer: Generating Explanations for Graph Neural Networks. NeurIPS 2019.
+
+[11] B. Laurie, A. Langley, E. Kasper. Certificate Transparency. RFC 6962, 2013.
+
+[12] L. Breiman. Random Forests. Machine Learning 45(1):5-32, 2001.
+
+[13] 	T. Chen, C. Guestrin. XGBoost: A Scalable Tree Boosting System. KDD 2016.
